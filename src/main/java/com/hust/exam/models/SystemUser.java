@@ -14,8 +14,6 @@ import javax.persistence.*;
 @Entity
 @Table(name="system_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="authority_type",
-        discriminatorType = DiscriminatorType.STRING)
 public class SystemUser {
     @Id
     @Column(name="username")
