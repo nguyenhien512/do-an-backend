@@ -21,6 +21,7 @@ public class SystemUser {
     @Column(name="username")
     private String username;
 
+    @Column(name="password")
     private String password;
 
     @Column(name="first_name")
@@ -28,5 +29,9 @@ public class SystemUser {
 
     @Column(name="last_name")
     private String lastName;
+
+    @Column(name="authority_type")
+    private String authorityType;
+
 
 }
