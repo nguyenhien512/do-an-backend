@@ -1,8 +1,11 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.AnswerType;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="r_test_question")

@@ -1,4 +1,4 @@
-package com.hust.exam.service;
+package com.hust.exam.service.impl;
 
 import com.hust.exam.models.SystemUser;
 import com.hust.exam.service.UserService;

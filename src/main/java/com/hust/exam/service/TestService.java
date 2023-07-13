@@ -1,16 +1,11 @@
 package com.hust.exam.service;
 
-import com.hust.exam.DTO.TestDTO;
-import com.hust.exam.DTO.TestResultDTO;
 import com.hust.exam.DTO.TestSubmitDTO;
 import com.hust.exam.enumobject.AnswerType;
-import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.models.*;
-import com.hust.exam.repository.QuestionRepository;
 import com.hust.exam.repository.StudentRepository;
 import com.hust.exam.repository.TestQuestionRelationRepository;
 import com.hust.exam.repository.TestRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
