@@ -22,13 +22,13 @@ public class Test {
     @Column(name="id")
     private int id;
 
-//    @ManyToMany
-//    @JoinTable(name="r_test_question", joinColumns = @JoinColumn(name="test_id"), inverseJoinColumns = @JoinColumn(name="question_id"))
-//    private List<Question> questions;
-
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "exam_id")
+    private Exam exam;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<TestQuestionRelation> testQuestionRelations;
@@ -39,9 +39,11 @@ public class Test {
     @Column(name="duration")
     private long duration;
 
-    @Column(name="created_date")
-    private LocalDateTime createdDate;
+    @Column(name="create_time")
+    private LocalDateTime createTime;
 
+    @Column(name="has_submit")
+    private boolean hasSubmit;
 
     public void addTestQuestionRelation(TestQuestionRelation r) {
         if (testQuestionRelations == null) {
@@ -50,23 +52,13 @@ public class Test {
         testQuestionRelations.add(r);
     }
 
-    public void score() {
-//        int score = 0;
-        if (testQuestionRelations != null) {
-            for (TestQuestionRelation r : testQuestionRelations) {
-                if (r.checkChosenAnswer()) {
-                    this.score += 1;
-                }
-            }
-        }
-    }
-
     public void setQuestions(List<Question> questions) {
         for (Question question : questions) {
             TestQuestionRelation relation = new TestQuestionRelation();
             relation.setTest(this);
             relation.setQuestion(question);
             addTestQuestionRelation(relation);
+            //need to set question_index for each relation
         }
     }
 }

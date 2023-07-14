@@ -1,14 +1,14 @@
 package com.hust.exam.models;
 
-import com.hust.exam.enumobject.AnswerType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(name="r_test_question")
+@Table(name="test_question_relation")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,12 +25,14 @@ public class TestQuestionRelation {
     @MapsId("questionId")
     private Question question;
 
-    @Column(name="chosen_answer")
-    @Enumerated(EnumType.STRING)
-    private AnswerType chosenAnswer;
+    @Column(name="answers")
+    private String answers;
 
-    public boolean checkChosenAnswer() {
-        return question.checkAnswer(chosenAnswer);
-    }
+    @OneToOne
+    @JoinColumn(name="mapping_rule_id", referencedColumnName = "id")
+    private MappingRule mappingRule;
+
+    @Column(name="question_index")
+    private int questionIndex;
 
 }

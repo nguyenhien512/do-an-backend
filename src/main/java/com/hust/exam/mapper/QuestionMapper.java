@@ -1,28 +1,21 @@
 package com.hust.exam.mapper;
 
-import com.hust.exam.DTO.QuestionDTO;
+import com.hust.exam.DTO.QuestionDto;
 import com.hust.exam.models.Question;
+import org.modelmapper.ModelMapper;
 
-import java.util.*;
+import java.util.List;
 
 public class QuestionMapper {
 
-    public static QuestionDTO questionToquestionDTO(Question question) {
-        QuestionDTO questionDTO = new QuestionDTO();
-        questionDTO.setId(question.getId());
-        questionDTO.setDescription(question.getDescription());
-        questionDTO.setAnswerA(question.getAnswerA());
-        questionDTO.setAnswerB(question.getAnswerB());
-        questionDTO.setAnswerC(question.getAnswerC());
-        questionDTO.setAnswerD(question.getAnswerD());
-        return questionDTO;
+    static ModelMapper modelMapper = new ModelMapper();
+    public static QuestionDto toQuestionDto(Question question) {
+        QuestionDto dto = modelMapper.map(question, QuestionDto.class);
+        return dto;
     }
 
-    public static List<QuestionDTO> questionsToQuestionDTOs(List<Question> questions) {
-        List<QuestionDTO> questionDTOs= new ArrayList<>();
-        for (Question model : questions) {
-            questionDTOs.add(questionToquestionDTO(model));
-        }
-        return questionDTOs;
+    public static List<QuestionDto> toQuestionDtoList(List<Question> questions) {
+        return ListMapper.mapList(questions, QuestionDto.class,question -> toQuestionDto(question));
     }
+    
 }

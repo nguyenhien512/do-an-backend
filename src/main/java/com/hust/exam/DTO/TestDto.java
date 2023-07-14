@@ -12,10 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestDTO {
+public class TestDto {
+
     private int id;
 
-    private List<QuestionDTO> questions;
+    private List<QuestionDto> questions;
 
     private String student;
 

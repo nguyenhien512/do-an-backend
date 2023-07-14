@@ -13,10 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("STUDENT_ROLE")
 public class Student extends SystemUser{
 
     @OneToMany(mappedBy = "student")
     private List<Test> tests;
+
+    @ManyToMany(mappedBy = "students")
+    private List<StudentClass> classes;
 
 }

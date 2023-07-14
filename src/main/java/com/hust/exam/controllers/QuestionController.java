@@ -1,6 +1,8 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.QuestionDTO;
+import com.hust.exam.DTO.QuestionDto;
+import com.hust.exam.mapper.QuestionMapper;
+import com.hust.exam.models.Question;
 import com.hust.exam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,8 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("")
-    public List<QuestionDTO> getAll() {
-        return questionService.getAll();
+    public List<QuestionDto> getAll() {
+        List<Question> questions = questionService.getAll();
+        return QuestionMapper.toQuestionDtoList(questions);
     }
 }

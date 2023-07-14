@@ -1,7 +1,7 @@
 package com.hust.exam.service;
 
-import com.hust.exam.DTO.TestSubmitDTO;
-import com.hust.exam.enumobject.AnswerType;
+import com.hust.exam.DTO.TestSubmitDto;
+import com.hust.exam.enumobject.AnswerKey;
 import com.hust.exam.models.*;
 import com.hust.exam.repository.StudentRepository;
 import com.hust.exam.repository.TestQuestionRelationRepository;
@@ -9,7 +9,6 @@ import com.hust.exam.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -33,24 +32,24 @@ public class TestService {
         Test test = new Test();
         test.setStudent(student);
         List<Question> questions = questionService.getRandomQuestions(5);
-        test.setCreatedDate(LocalDateTime.now());
+        //test.setCreatedDate(LocalDateTime.now());
         test.setQuestions(questions);
         Test saved = testRepository.save(test);
         return saved;
     }
 
-    public void postAnswers(int testId, TestSubmitDTO testWithAnswer) {
+    public void postAnswers(int testId, TestSubmitDto testWithAnswer) {
         Test foundTest = testRepository.findById(testId).get();
         foundTest.setDuration(testWithAnswer.getDuration());
-        Map<Integer, AnswerType> answers = testWithAnswer.getAnswers();
-        for (Map.Entry<Integer,AnswerType> answer : answers.entrySet()) {
+        Map<Integer, AnswerKey> answers = testWithAnswer.getAnswers();
+        for (Map.Entry<Integer, AnswerKey> answer : answers.entrySet()) {
             int questionId = answer.getKey();
-            AnswerType chosenAnswer = answer.getValue();
+            AnswerKey chosenAnswer = answer.getValue();
             TestQuestionRelationId relationId = new TestQuestionRelationId(testId,questionId);
             TestQuestionRelation relation = testQuestionRelationRepository.findById(relationId).get();
-            relation.setChosenAnswer(chosenAnswer);
+            //relation.setChosenAnswer(chosenAnswer);
         }
-        foundTest.score();
+        //foundTest.score();
         testRepository.save(foundTest);
     }
 

@@ -1,12 +1,14 @@
 package com.hust.exam.models;
 
-import com.hust.exam.enumobject.AnswerType;
+import com.hust.exam.enumobject.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,26 +22,32 @@ public class Question {
     @Column(name="id")
     private int id;
 
-    @Column(name="description")
-    private String description;
+    @Column(name="content")
+    private String content;
 
-    @Column(name="answer_a")
-    private String answerA;
-
-    @Column(name="answer_b")
-    private String answerB;
-
-    @Column(name="answer_c")
-    private String answerC;
-
-    @Column(name="answer_d")
-    private String answerD;
-
-    @Column(name="correct_answer", updatable = false)
+    @Column(name="grade")
     @Enumerated(EnumType.STRING)
-    private AnswerType correctAnswer;
+    private Grade grade;
 
-    public boolean checkAnswer(AnswerType chosenAnswer) {
-        return chosenAnswer == correctAnswer;
+    @Column(name="subject")
+    @Enumerated(EnumType.STRING)
+    private Subject subject;
+
+    @Column(name="question_type")
+    @Enumerated(EnumType.STRING)
+    private QuestionType questionType;
+
+    @Column(name="correct_answers")
+    private String correctAnswers;
+
+    @Column(name="exam_times")
+    private int examTimes;
+
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers = new ArrayList<>();
+
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
     }
+
 }
