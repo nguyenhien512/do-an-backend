@@ -1,6 +1,5 @@
 package com.hust.exam.models;
 
-import com.hust.exam.enumobject.AuthorityType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,8 +13,7 @@ import lombok.Setter;
 @Entity
 @Table(name="system_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="authority_type",
-        discriminatorType = DiscriminatorType.STRING)
+
 public class SystemUser {
     @Id
     @Column(name="username")

@@ -1,6 +1,8 @@
 package com.hust.exam.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("STUDENT_ROLE")
 public class Student extends SystemUser{
 
     @OneToMany(mappedBy = "student")
     private List<Test> tests;
+
+    @ManyToMany(mappedBy = "students")
+    private List<StudentClass> classes;
 
 }
