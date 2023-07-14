@@ -1,7 +1,7 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.ExamStatus;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
