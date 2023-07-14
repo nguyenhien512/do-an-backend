@@ -1,21 +1,19 @@
 package com.hust.exam.DTO;
 
-import com.hust.exam.enumobject.AnswerType;
+import com.hust.exam.enumobject.AnswerKey;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.Map;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestSubmitDTO {
+public class AnswerDto {
 
-    private int duration;
+    private AnswerKey key;
 
-    private Map<Integer, AnswerType> answers;
+    private String content;
+
 }

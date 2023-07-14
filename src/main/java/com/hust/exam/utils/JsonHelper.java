@@ -2,7 +2,7 @@ package com.hust.exam.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hust.exam.DTO.TestSubmitDTO;
+import com.hust.exam.DTO.TestSubmitDto;
 
 public class JsonHelper {
 
@@ -12,7 +12,7 @@ public class JsonHelper {
         return objectMapper.writeValueAsString(object);
     }
 
-    public static TestSubmitDTO convertJsonToTestSubmitDTO(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, TestSubmitDTO.class);
+    public static TestSubmitDto convertJsonToTestSubmitDTO(String json) throws JsonProcessingException {
+        return objectMapper.readValue(json, TestSubmitDto.class);
     }
 }
