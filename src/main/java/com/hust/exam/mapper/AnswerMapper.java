@@ -1,7 +1,10 @@
 package com.hust.exam.mapper;
 
 import com.hust.exam.DTO.AnswerDto;
+import com.hust.exam.enumobject.AnswerKey;
 import com.hust.exam.models.Answer;
+import com.hust.exam.models.MappingRule;
+import com.hust.exam.utils.MappingUtil;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -15,8 +18,16 @@ public class AnswerMapper {
         return modelMapper.map(answer, AnswerDto.class);
     }
 
+    public static AnswerDto toAnswerDto(Answer answer, MappingRule mappingRule) {
+        AnswerDto answerDto = new AnswerDto();
+        AnswerKey transformedAnswerKey = MappingUtil.mapForward(answer.getKey(), mappingRule);
+        answerDto.setKey(transformedAnswerKey);
+        answerDto.setContent(answer.getContent());
+        return answerDto;
+    }
+
     public static List<AnswerDto> toAnswerDtoList(List<Answer> answers) {
-        return ListMapper.mapList(answers, AnswerDto.class,answer -> toAnswerDto(answer));
+        return ListMapper.mapList(answers, AnswerDto.class, AnswerMapper::toAnswerDto);
     }
 
 

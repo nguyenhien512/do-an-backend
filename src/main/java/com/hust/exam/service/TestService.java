@@ -1,6 +1,6 @@
 package com.hust.exam.service;
 
-import com.hust.exam.DTO.TestDto;
+import com.hust.exam.DTO.ExamTestDto;
 import com.hust.exam.models.*;
 import com.hust.exam.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class TestService {
         return testRepository.save(test);
     }
 
-    public void postAnswers(String username, TestDto testWithAnswer) {
+    public void postAnswers(String username, ExamTestDto testWithAnswer) {
         //post answer here
     }
 

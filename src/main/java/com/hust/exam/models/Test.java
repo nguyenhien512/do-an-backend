@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -54,11 +53,5 @@ public class Test {
         relation.setMappingRule(mappingRule);
         testQuestionRelations.add(relation);
     }
-
-    @Transient
-    private List<Question> questions = testQuestionRelations
-            .stream()
-            .map(TestQuestionRelation::getQuestion)
-            .collect(Collectors.toList());
 
 }

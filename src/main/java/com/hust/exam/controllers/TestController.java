@@ -1,6 +1,6 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.TestDto;
+import com.hust.exam.DTO.ExamTestDto;
 import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,18 @@ public class TestController {
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public TestDto createTest(@RequestParam int examId) {
+    public ExamTestDto createTest(@RequestParam int examId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return TestMapper.toTestDto(testService.createTest(currentUserName, examId));
+        return TestMapper.toExamTestDto(testService.createTest(currentUserName, examId));
     }
 
     @PostMapping ("/postAnswers")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public void postAnswers(@RequestBody TestDto testWithAnswers) {
+    public void postAnswers(@RequestBody ExamTestDto testWithAnswers) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -41,12 +41,12 @@ public class TestController {
 
     @GetMapping("/testResult")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public TestDto getResult(@RequestParam int testId) {
+    public ExamTestDto getResult(@RequestParam int testId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return TestMapper.toTestDto(testService.getResult(currentUserName, testId));
+        return null;
     }
 }

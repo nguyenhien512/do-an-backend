@@ -12,22 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestDto {
+public class ExamTestDto {
 
     private int id;
 
-    private StudentDto student;
-
-    private ExamDto exam;
-
-    private List<QuestionDto> questions;
-
-    private int score;
-
-    private long duration;
+    private List<ExamQuestionDto> questions;
 
     private LocalDateTime createTime;
-
-    private boolean hasSubmit;
 
 }

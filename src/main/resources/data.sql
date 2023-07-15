@@ -62,3 +62,33 @@ INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 2);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 3);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 4);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 5);
+
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ABCD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BACD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CABD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ACBD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BCAD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CBAD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CBDA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BCDA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DCBA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CDBA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BDCA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DBCA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DACB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ADCB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CDAB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DCAB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ACDB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CADB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BADC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ABDC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DBAC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BDAC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ADBC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DABC');
+
+
+
+
+
