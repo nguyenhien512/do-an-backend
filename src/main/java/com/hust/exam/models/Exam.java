@@ -1,14 +1,13 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.ExamStatus;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -53,20 +52,13 @@ public class Exam {
     @OneToMany(mappedBy = "exam")
     private List<Test> tests;
 
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
-    private List<ExamQuestionRelation> examQuestionRelations = new ArrayList<>();
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "exam_question_relation",
+            joinColumns = { @JoinColumn(name = "exam_id") },
+            inverseJoinColumns = { @JoinColumn(name = "question_id") }
+    )
+    private List<Question> questions;
 
-    public void addExamQuestionRelation(ExamQuestionRelation r) {
-        examQuestionRelations.add(r);
-    }
 
-    public void setQuestions(List<Question> questions) {
-        for (Question question : questions) {
-            ExamQuestionRelation relation = new ExamQuestionRelation();
-            relation.setExam(this);
-            relation.setQuestion(question);
-            addExamQuestionRelation(relation);
-            //need to set question_index for each relation
-        }
-    }
 }
