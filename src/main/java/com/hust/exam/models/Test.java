@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -31,7 +32,7 @@ public class Test {
     private Exam exam;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
-    private List<TestQuestionRelation> testQuestionRelations;
+    private List<TestQuestionRelation> testQuestionRelations = new ArrayList<>();
 
     @Column(name="score")
     private int score;
@@ -45,20 +46,19 @@ public class Test {
     @Column(name="has_submit")
     private boolean hasSubmit;
 
-    public void addTestQuestionRelation(TestQuestionRelation r) {
-        if (testQuestionRelations == null) {
-            testQuestionRelations = new ArrayList<>();
-        }
-        testQuestionRelations.add(r);
+    public void addQuestion (Question question, int questionIndex, MappingRule mappingRule) {
+        TestQuestionRelation relation = new TestQuestionRelation();
+        relation.setTest(this);
+        relation.setQuestion(question);
+        relation.setQuestionIndex(questionIndex);
+        relation.setMappingRule(mappingRule);
+        testQuestionRelations.add(relation);
     }
 
-    public void setQuestions(List<Question> questions) {
-        for (Question question : questions) {
-            TestQuestionRelation relation = new TestQuestionRelation();
-            relation.setTest(this);
-            relation.setQuestion(question);
-            addTestQuestionRelation(relation);
-            //need to set question_index for each relation
-        }
-    }
+    @Transient
+    private List<Question> questions = testQuestionRelations
+            .stream()
+            .map(TestQuestionRelation::getQuestion)
+            .collect(Collectors.toList());
+
 }

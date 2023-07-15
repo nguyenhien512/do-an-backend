@@ -1,22 +1,21 @@
 package com.hust.exam.mapper;
 
+import com.hust.exam.DTO.TestDto;
+import com.hust.exam.DTO.TestResultDto;
+import com.hust.exam.models.Test;
+import org.modelmapper.ModelMapper;
+
 public class TestMapper {
-//    public static TestDTO testToTestDTO(Test test) {
-//        TestDTO testDTO = new TestDTO();
-//        testDTO.setId(test.getId());
-//        List<Question> questions = test.getTestQuestionRelations().stream().map(item -> item.getQuestion()).collect(Collectors.toList());
-//        testDTO.setQuestions(QuestionMapper.questionsToQuestionDTOs(questions));
-//        testDTO.setCreatedDate(test.getCreatedDate());
-//        testDTO.setStudent(test.getStudent().getUsername());
-//        return testDTO;
-//    }
-//
-//    public static TestResultDTO testToTestResultDTO(Test test) {
-//        TestResultDTO testResultDTO = new TestResultDTO();
-//        testResultDTO.setId(test.getId());
-//        testResultDTO.setScore(test.getScore());
-//        testResultDTO.setDuration(test.getDuration());
-//        return testResultDTO;
-//    }
+    static ModelMapper modelMapper = new ModelMapper();
+    static {
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+    }
+    public static TestDto toTestDto (Test test) {
+        return modelMapper.map(test, TestDto.class);
+    }
+
+    public static TestResultDto toTestResultDto (Test test) {
+        return modelMapper.map(test, TestResultDto.class);
+    }
 
 }

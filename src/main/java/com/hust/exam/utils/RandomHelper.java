@@ -18,4 +18,9 @@ public class RandomHelper {
         Collections.shuffle(list);
         return list.stream().limit(size).collect(Collectors.toList());
     }
+
+    public static int getRandomInt (int min, int max) {
+        return rnd.nextInt(max - min) + min;
+    }
+
 }

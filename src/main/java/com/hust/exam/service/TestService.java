@@ -1,16 +1,14 @@
 package com.hust.exam.service;
 
-import com.hust.exam.DTO.TestSubmitDto;
-import com.hust.exam.enumobject.AnswerKey;
+import com.hust.exam.DTO.TestDto;
 import com.hust.exam.models.*;
-import com.hust.exam.repository.StudentRepository;
-import com.hust.exam.repository.TestQuestionRelationRepository;
 import com.hust.exam.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TestService {
@@ -18,43 +16,50 @@ public class TestService {
     TestRepository testRepository;
 
     @Autowired
-    QuestionService questionService;
+    UserService userService;
 
     @Autowired
-    TestQuestionRelationRepository testQuestionRelationRepository;
+    ExamService examService;
 
     @Autowired
-    StudentRepository studentRepository;
+    MappingRuleService mappingRuleService;
 
 
-    public Test createTest(String username) {
-        Student student = studentRepository.findById(username).get();
+    public Test createTest(String username, int examId) {
+        Student student = (Student) userService.findWithUsername(username);
+        Exam exam = examService.findById(examId);
         Test test = new Test();
+
+        test.setExam(exam);
         test.setStudent(student);
-        List<Question> questions = questionService.getRandomQuestions(5);
-        //test.setCreatedDate(LocalDateTime.now());
-        test.setQuestions(questions);
-        Test saved = testRepository.save(test);
-        return saved;
-    }
-
-    public void postAnswers(int testId, TestSubmitDto testWithAnswer) {
-        Test foundTest = testRepository.findById(testId).get();
-        foundTest.setDuration(testWithAnswer.getDuration());
-        Map<Integer, AnswerKey> answers = testWithAnswer.getAnswers();
-        for (Map.Entry<Integer, AnswerKey> answer : answers.entrySet()) {
-            int questionId = answer.getKey();
-            AnswerKey chosenAnswer = answer.getValue();
-            TestQuestionRelationId relationId = new TestQuestionRelationId(testId,questionId);
-            TestQuestionRelation relation = testQuestionRelationRepository.findById(relationId).get();
-            //relation.setChosenAnswer(chosenAnswer);
+        test.setCreateTime(LocalDateTime.now());
+        //shuffle questions
+        List<Question> questions = exam.getQuestions();
+        Collections.shuffle(questions);
+        //shuffle answers
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            MappingRule mappingRule = mappingRuleService.getRandomRule();
+            test.addQuestion(question, i, mappingRule);
         }
-        //foundTest.score();
-        testRepository.save(foundTest);
+        return testRepository.save(test);
     }
 
-    public Test getResult(int testId) {
-        return testRepository.findById(testId).get();
+    public void postAnswers(String username, TestDto testWithAnswer) {
+        //post answer here
     }
 
+    public int calculateScore(Test test) {
+        int score = 10;
+        //calculate score here
+        return score;
+    }
+
+    public Test getResult(String username, int testId) {
+        Test foundTest = testRepository.findById(testId).get();
+        if (!foundTest.getStudent().getUsername().equals(username)) {
+            return null;
+        }
+        return foundTest;
+    }
 }

@@ -28,4 +28,8 @@ public class QuestionDto {
 
     private List<AnswerDto> answers;
 
+    private String correctAnswers;
+
+    private int exam_times;
+
 }

@@ -55,7 +55,10 @@ INSERT INTO system_users (username, password, first_name, last_name, authority) 
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher1','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Hoa','Nguyen Thi','TEACHER');
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher2','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Van','Nguyen Thi','TEACHER');
 
+INSERT INTO exams (name, exam_times, max_duration) VALUES ('THI CUOI KI 1',0,2400000);
 
-
-
-
+INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 1);
+INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 2);
+INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 3);
+INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 4);
+INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 5);

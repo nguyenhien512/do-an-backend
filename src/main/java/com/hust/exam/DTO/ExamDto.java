@@ -5,29 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestDto {
-
+public class ExamDto {
     private int id;
 
-    private StudentDto student;
-
-    private ExamDto exam;
-
     private List<QuestionDto> questions;
-
-    private int score;
-
-    private long duration;
-
-    private LocalDateTime createTime;
-
-    private boolean hasSubmit;
-
 }

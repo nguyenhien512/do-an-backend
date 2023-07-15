@@ -8,6 +8,9 @@ import java.util.List;
 public class AnswerMapper {
 
     static ModelMapper modelMapper = new ModelMapper();
+    static {
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+    }
     public static AnswerDto toAnswerDto(Answer answer) {
         return modelMapper.map(answer, AnswerDto.class);
     }
