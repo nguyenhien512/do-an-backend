@@ -1,14 +1,12 @@
 package com.hust.exam.models;
 
-import com.hust.exam.enumobject.Grade;
-import com.hust.exam.enumobject.QuestionType;
-import com.hust.exam.enumobject.Subject;
-import jakarta.persistence.*;
+import com.hust.exam.enumobject.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

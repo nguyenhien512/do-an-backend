@@ -50,6 +50,11 @@ INSERT INTO answers (question_id, answer_key, content) VALUES (8,'D','forbid');
 INSERT INTO answers (question_id, answer_key, content) VALUES (9,'D','give');
 INSERT INTO answers (question_id, answer_key, content) VALUES (10,'D','if');
 
+INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('student1','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','An','Nguyen Van','STUDENT');
+INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('student2','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Binh','Nguyen Van','STUDENT');
+INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher1','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Hoa','Nguyen Thi','TEACHER');
+INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher2','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Van','Nguyen Thi','TEACHER');
+
 
 
 
