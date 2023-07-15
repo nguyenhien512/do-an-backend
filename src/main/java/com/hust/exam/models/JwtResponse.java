@@ -42,4 +42,13 @@ public class JwtResponse implements Serializable {
         this.jwttoken = jwttoken;
     }
 
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "jwttoken='" + jwttoken + '\'' +
+                ", authority='" + authority + '\'' +
+                ", firstTime=" + firstTime +
+                ", locationCode='" + locationCode + '\'' +
+                '}';
+    }
 }

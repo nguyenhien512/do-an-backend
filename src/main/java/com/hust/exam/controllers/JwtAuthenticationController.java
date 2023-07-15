@@ -30,11 +30,14 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        System.out.println("checkpoint 1 "+authenticationRequest);
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         final String authority = userDetails.getAuthorities().stream().findFirst().get().toString();
-        return ResponseEntity.ok(new JwtResponse(token, authority));
+        JwtResponse response = new JwtResponse(token,authority);
+        System.out.println("RESPONSE "+response);
+        return ResponseEntity.ok(response);
     }
 
     private void authenticate(String username, String password) throws Exception {
