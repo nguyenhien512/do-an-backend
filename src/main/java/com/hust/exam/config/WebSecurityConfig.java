@@ -50,9 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable() // We don't need CSRF for this example
-                .authorizeRequests().antMatchers("/authenticate", "/change").permitAll()
-                .antMatchers("/assignments/**").permitAll()
-                .antMatchers("/user/**", "/asset/**","/category/**").access("hasAuthority('TEACHER')")
+                .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .antMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated().and() // All other requests need to be authenticated
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);  // Make sure we use stateless session; session won't be used to store user's state.

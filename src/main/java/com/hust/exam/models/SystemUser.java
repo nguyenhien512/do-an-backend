@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -14,7 +15,10 @@ import javax.persistence.*;
 @Entity
 @Table(name="system_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class SystemUser {
+@DiscriminatorColumn(name="authority", discriminatorType = DiscriminatorType.STRING)
+public class SystemUser implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name="username")
     private String username;
@@ -28,8 +32,13 @@ public class SystemUser {
     @Column(name="last_name")
     private String lastName;
 
-    @Column(name="authority_type")
-    private String authorityType;
+    @Column(name="authority", insertable = false, updatable = false)
+    private String authority;
 
-
+    public SystemUser(String username, String password, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

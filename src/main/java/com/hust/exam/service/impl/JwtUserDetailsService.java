@@ -3,8 +3,8 @@ package com.hust.exam.service.impl;
 import com.hust.exam.models.SystemUser;
 import com.hust.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user != null) {
             builder = User.withUsername(username);
             builder.password(user.getPassword());
-            builder.authorities(user.getAuthorityType());
+            builder.authorities(user.getAuthority());
             return builder.build();
         } else {
             throw new UsernameNotFoundException("User not found with name: " + username);

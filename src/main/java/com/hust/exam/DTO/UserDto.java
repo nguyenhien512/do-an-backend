@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class UserDto {
+
     private String username;
 
     private String firstName;
@@ -19,5 +20,5 @@ public class UserDTO {
 
     private String lastName;
 
-    private String authorityType;
+    private String authority;
 }

@@ -1,9 +1,7 @@
 package com.hust.exam.controllers;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hust.exam.models.JwtRequest;
 import com.hust.exam.models.JwtResponse;
-import com.hust.exam.models.SystemUser;
 import com.hust.exam.service.UserService;
 import com.hust.exam.service.impl.JwtUserDetailsService;
 import com.hust.exam.utils.JwtTokenUtil;

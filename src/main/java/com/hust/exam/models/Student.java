@@ -13,12 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Student extends SystemUser{
+@DiscriminatorValue("STUDENT")
+public class Student extends SystemUser {
 
     @OneToMany(mappedBy = "student")
     private List<Test> tests;
 
     @ManyToMany(mappedBy = "students")
     private List<StudentClass> classes;
+
+    public Student(String username, String password, String firstName, String lastName) {
+       super(username, password, firstName, lastName);
+       this.setAuthority("STUDENT");
+    }
 
 }
