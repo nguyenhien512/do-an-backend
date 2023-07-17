@@ -36,20 +36,19 @@ public class Test {
     @Column(name="score")
     private int score;
 
-    @Column(name="duration")
-    private long duration;
+    @Column(name="submit_time")
+    private LocalDateTime submitTime;
 
     @Column(name="create_time")
     private LocalDateTime createTime;
 
     @Column(name="has_submit")
-    private boolean hasSubmit;
+    private boolean hasSubmit = false;
 
-    public void addQuestion (Question question, int questionIndex, MappingRule mappingRule) {
+    public void addQuestion (Question question, MappingRule mappingRule) {
         TestQuestionRelation relation = new TestQuestionRelation();
         relation.setTest(this);
         relation.setQuestion(question);
-        relation.setQuestionIndex(questionIndex);
         relation.setMappingRule(mappingRule);
         testQuestionRelations.add(relation);
     }

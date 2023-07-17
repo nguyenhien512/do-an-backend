@@ -32,7 +32,4 @@ public class TestQuestionRelation {
     @JoinColumn(name="mapping_rule_id", referencedColumnName = "id")
     private MappingRule mappingRule;
 
-    @Column(name="question_index")
-    private int questionIndex;
-
 }

@@ -1,6 +1,8 @@
 package com.hust.exam.models;
 
-import com.hust.exam.enumobject.*;
+import com.hust.exam.enumobject.Grade;
+import com.hust.exam.enumobject.QuestionType;
+import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +50,10 @@ public class Question {
 
     public void addAnswer(Answer answer) {
         answers.add(answer);
+    }
+
+    public boolean checkAnswer(String chosenAnswers) {
+        return correctAnswers.equals(chosenAnswers);
     }
 
 }

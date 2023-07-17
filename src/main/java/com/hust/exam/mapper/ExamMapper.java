@@ -1,18 +1,21 @@
 package com.hust.exam.mapper;
 
-import com.hust.exam.DTO.ExamDto;
+import com.hust.exam.DTO.StudentExamDto;
 import com.hust.exam.models.Exam;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
+
+import java.util.List;
 
 public class ExamMapper {
     static ModelMapper modelMapper = new ModelMapper();
     static {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
     }
-    public static ExamDto toExamDto (Exam exam) {
-        TypeMap<Exam, ExamDto> propertyMapper = modelMapper.createTypeMap(Exam.class, ExamDto.class);
-        propertyMapper.addMapping(Exam::getQuestions, ExamDto::setQuestions);
-        return modelMapper.map(exam, ExamDto.class);
+    public static StudentExamDto toStudentExamDto (Exam exam) {
+        return modelMapper.map(exam, StudentExamDto.class);
+    }
+
+    public static List<StudentExamDto> toStudentExamDtoList(List<Exam> exams) {
+        return ListMapper.mapList(exams, StudentExamDto.class, ExamMapper::toStudentExamDto);
     }
 }

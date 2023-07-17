@@ -2,7 +2,7 @@ package com.hust.exam.mapper;
 
 import com.hust.exam.DTO.AnswerDto;
 import com.hust.exam.DTO.QuestionDto;
-import com.hust.exam.DTO.ExamQuestionDto;
+import com.hust.exam.DTO.StudentQuestionDto;
 import com.hust.exam.models.Question;
 import org.modelmapper.ModelMapper;
 
@@ -15,8 +15,8 @@ public class QuestionMapper {
         return modelMapper.map(question, QuestionDto.class);
     }
 
-    public static ExamQuestionDto toShortQuestionDto (Question question, List<AnswerDto> answerDtos) {
-        ExamQuestionDto shortQuestionDto = new ExamQuestionDto();
+    public static StudentQuestionDto toShortQuestionDto (Question question, List<AnswerDto> answerDtos) {
+        StudentQuestionDto shortQuestionDto = new StudentQuestionDto();
         shortQuestionDto.setId(question.getId());
         shortQuestionDto.setContent(question.getContent());
         shortQuestionDto.setAnswers(answerDtos);

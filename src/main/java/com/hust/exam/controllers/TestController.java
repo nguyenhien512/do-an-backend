@@ -1,6 +1,7 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.ExamTestDto;
+import com.hust.exam.DTO.StudentTestDto;
+import com.hust.exam.DTO.TestResultDto;
 import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/tests")
+@CrossOrigin
 public class TestController {
 
     @Autowired
@@ -19,7 +23,7 @@ public class TestController {
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public ExamTestDto createTest(@RequestParam int examId) {
+    public StudentTestDto createTest(@RequestParam int examId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -28,25 +32,25 @@ public class TestController {
         return TestMapper.toExamTestDto(testService.createTest(currentUserName, examId));
     }
 
-    @PostMapping ("/postAnswers")
+    @PostMapping ("/{testId}/answers")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public void postAnswers(@RequestBody ExamTestDto testWithAnswers) {
+    public void postAnswers(@PathVariable int testId, @RequestBody Map<Integer, String> answers) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        testService.postAnswers(currentUserName, testWithAnswers);
+        testService.postAnswers(currentUserName,testId, answers);
     }
 
-    @GetMapping("/testResult")
+    @GetMapping("/{testId}/result")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public ExamTestDto getResult(@RequestParam int testId) {
+    public TestResultDto getResult(@PathVariable int testId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return null;
+        return TestMapper.toTestResultDto(testService.getResult(currentUserName,testId));
     }
 }

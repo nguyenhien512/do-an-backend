@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ExamTestDto {
+public class StudentTestDto {
 
     private int id;
 
-    private List<ExamQuestionDto> questions;
+    private List<StudentQuestionDto> questions;
 
     private LocalDateTime createTime;
 

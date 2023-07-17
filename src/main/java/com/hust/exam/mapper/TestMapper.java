@@ -1,12 +1,8 @@
 package com.hust.exam.mapper;
 
-import com.hust.exam.DTO.AnswerDto;
-import com.hust.exam.DTO.ExamQuestionDto;
-import com.hust.exam.DTO.ExamTestDto;
-import com.hust.exam.DTO.TestResultDto;
+import com.hust.exam.DTO.*;
 import com.hust.exam.models.Question;
 import com.hust.exam.models.Test;
-import com.hust.exam.models.TestQuestionRelation;
 import org.modelmapper.ModelMapper;
 
 import java.util.Comparator;
@@ -18,15 +14,11 @@ public class TestMapper {
     static {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
     }
-    public static ExamTestDto toExamTestDto (Test test) {
-        ExamTestDto examTestDto = new ExamTestDto();
+    public static StudentTestDto toExamTestDto (Test test) {
+        StudentTestDto examTestDto = new StudentTestDto();
         examTestDto.setId(test.getId());
         examTestDto.setCreateTime(test.getCreateTime());
-        List<TestQuestionRelation> sortedTestQuestionRelations = test.getTestQuestionRelations()
-                .stream()
-                .sorted(Comparator.comparingInt(TestQuestionRelation::getQuestionIndex))
-                .toList();
-        List<ExamQuestionDto> questionDtoList = sortedTestQuestionRelations
+        List<StudentQuestionDto> questionDtoList = test.getTestQuestionRelations()
                 .stream()
                 .map(relation -> {
                     Question question = relation.getQuestion();
