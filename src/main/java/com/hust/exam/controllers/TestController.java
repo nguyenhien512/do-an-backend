@@ -15,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tests")
+@PreAuthorize("hasAuthority('STUDENT')")
 @CrossOrigin
 public class TestController {
 

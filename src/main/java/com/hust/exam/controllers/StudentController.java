@@ -5,6 +5,7 @@ import com.hust.exam.mapper.ExamMapper;
 import com.hust.exam.service.ExamService;
 import com.hust.exam.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
+@PreAuthorize("hasAuthority('STUDENT')")
 @CrossOrigin
 public class StudentController {
 
