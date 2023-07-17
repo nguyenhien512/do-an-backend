@@ -60,7 +60,7 @@ INSERT INTO classes (name, create_by) VALUES ('10A5','teacher1');
 INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student1');
 INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student2');
 
-INSERT INTO exams (name, exam_times, max_duration, class_id, create_by) VALUES ('THI CUOI KI 1',0,2400000, 1,'teacher1');
+INSERT INTO exams (name, exam_times, max_duration, max_retry, class_id, create_by) VALUES ('ĐỀ THI CUỐI HỌC KÌ 1',0,2400000,5, 1,'teacher1');
 
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 1);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 2);

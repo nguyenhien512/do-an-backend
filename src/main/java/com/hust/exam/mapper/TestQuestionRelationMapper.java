@@ -10,6 +10,9 @@ public class TestQuestionRelationMapper {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
     }
     public static TestQuestionRelationDto toDto (TestQuestionRelation relation) {
-        return modelMapper.map(relation, TestQuestionRelationDto.class);
+        TestQuestionRelationDto dto = new TestQuestionRelationDto();
+        dto.setQuestion(QuestionMapper.toQuestionDto(relation.getQuestion(),relation.getMappingRule()));
+        dto.setAnswers(relation.getAnswers());
+        return dto;
     }
 }

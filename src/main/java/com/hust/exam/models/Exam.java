@@ -41,6 +41,9 @@ public class Exam {
     @Enumerated(EnumType.STRING)
     private ExamStatus examStatus;
 
+    @Column(name="max_retry")
+    private int maxRetry;
+
     @ManyToOne
     @JoinColumn(name = "class_id")
     private StudentClass studentClass;

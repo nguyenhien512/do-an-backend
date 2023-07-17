@@ -1,8 +1,6 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.StudentTestDto;
-import com.hust.exam.DTO.TestResultDto;
-import com.hust.exam.DTO.TestSubmitDto;
+import com.hust.exam.DTO.*;
 import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tests")
@@ -51,5 +51,11 @@ public class TestController {
             currentUserName = authentication.getName();
         }
         return TestMapper.toTestResultDto(testService.getResult(currentUserName,testId));
+    }
+
+    @GetMapping("")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public List<TeacherTestDto> getTestsByExam(@RequestParam int examId) {
+        return TestMapper.toTeacherTestDtoList(testService.getByExam(examId));
     }
 }

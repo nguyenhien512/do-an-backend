@@ -20,4 +20,8 @@ public class ExamService {
     public List<Exam> findByStudent (String username) {
         return examRepository.findByStudentUsername(username);
     }
+
+    public List<Exam> findByTeacher (String username) {
+        return examRepository.findByTeacherUsername(username);
+    }
 }

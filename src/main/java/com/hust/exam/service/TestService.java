@@ -30,9 +30,14 @@ public class TestService {
     public Test createTest(String username, int examId) {
         Student student = (Student) userService.findWithUsername(username);
         Exam exam = examService.findById(examId);
-        Test test = new Test();
 
+        if (countByExamAndStudent(exam, student) >= exam.getMaxRetry()) {
+            return null;
+        }
+
+        Test test = new Test();
         test.setExam(exam);
+        exam.setExamTimes(exam.getExamTimes() + 1);
         test.setStudent(student);
         test.setCreateTime(LocalDateTime.now());
         //shuffle questions
@@ -90,5 +95,13 @@ public class TestService {
             return null;
         }
         return foundTest;
+    }
+
+    public List<Test> getByExam(int examId) {
+        return testRepository.findByExam(examId);
+    }
+
+    public int countByExamAndStudent(Exam exam, Student student) {
+        return testRepository.countByExamAndStudent(exam, student);
     }
 }
