@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 public class MappingUtil {
 
     public static String mapForward(String originalKeys, MappingRule mappingRule) {
-        if (mappingRule == null) {
+        if (mappingRule == null || originalKeys == null) {
             return originalKeys;
         }
         String[] rule = mappingRule.getRule().split(",");
@@ -31,7 +31,7 @@ public class MappingUtil {
     }
 
     public static String mapBackward(String transformedKeys, MappingRule mappingRule) {
-        if (mappingRule == null) {
+        if (mappingRule == null || transformedKeys == null) {
             return transformedKeys;
         }
         String[] rule = mappingRule.getRule().split(",");

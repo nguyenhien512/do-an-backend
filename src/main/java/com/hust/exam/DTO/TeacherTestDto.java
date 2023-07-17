@@ -6,24 +6,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestResultDto {
-
+public class TeacherTestDto {
     private int id;
+    private String studentUsername;
 
-    private String studentFirstName;
+    private int examId;
 
-    private String studentLastName;
-
-    private int examName;
+    private List<TestQuestionRelationDto> testQuestionRelations;
 
     private int score;
 
     private LocalDateTime submitTime;
+
+    private LocalDateTime createTime;
 
     private boolean hasSubmit;
 }

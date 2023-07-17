@@ -1,5 +1,6 @@
 package com.hust.exam.service;
 
+import com.hust.exam.DTO.TestSubmitDto;
 import com.hust.exam.models.*;
 import com.hust.exam.repository.TestRepository;
 import com.hust.exam.utils.MappingUtil;
@@ -29,9 +30,14 @@ public class TestService {
     public Test createTest(String username, int examId) {
         Student student = (Student) userService.findWithUsername(username);
         Exam exam = examService.findById(examId);
-        Test test = new Test();
 
+        if (countByExamAndStudent(exam, student) >= exam.getMaxRetry()) {
+            return null;
+        }
+
+        Test test = new Test();
         test.setExam(exam);
+        exam.setExamTimes(exam.getExamTimes() + 1);
         test.setStudent(student);
         test.setCreateTime(LocalDateTime.now());
         //shuffle questions
@@ -47,7 +53,7 @@ public class TestService {
         return testRepository.save(test);
     }
 
-    public void postAnswers(String username, int testId, Map<Integer, String> answers) {
+    public void postAnswers(String username, int testId, TestSubmitDto testSubmitDto) {
         Test found = testRepository.findById(testId).get();
         if (found.isHasSubmit()) {
             return;
@@ -57,7 +63,7 @@ public class TestService {
         }
         found.setSubmitTime(LocalDateTime.now());
         found.setHasSubmit(true);
-        for (Map.Entry<Integer, String> entry : answers.entrySet()) {
+        for (Map.Entry<Integer, String> entry : testSubmitDto.getAnswers().entrySet()) {
             int questionId = entry.getKey();
             String answer = entry.getValue();
             TestQuestionRelation relation = found.getTestQuestionRelations()
@@ -89,5 +95,13 @@ public class TestService {
             return null;
         }
         return foundTest;
+    }
+
+    public List<Test> getByExam(int examId) {
+        return testRepository.findByExam(examId);
+    }
+
+    public int countByExamAndStudent(Exam exam, Student student) {
+        return testRepository.countByExamAndStudent(exam, student);
     }
 }

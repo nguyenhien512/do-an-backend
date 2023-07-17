@@ -12,4 +12,7 @@ public interface ExamRepository  extends JpaRepository<Exam,Integer> {
 
     @Query("SELECT e FROM Exam e INNER JOIN e.studentClass c INNER JOIN c.students s WHERE s.username = ?1")
     List<Exam> findByStudentUsername(String username);
+
+    @Query("SELECT e FROM Exam e INNER JOIN e.createBy t WHERE t.username = ?1")
+    List<Exam> findByTeacherUsername(String username);
 }
