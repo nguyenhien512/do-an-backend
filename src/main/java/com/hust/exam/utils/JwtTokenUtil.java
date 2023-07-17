@@ -1,20 +1,26 @@
 package com.hust.exam.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.hust.exam.models.SystemUser;
+import com.hust.exam.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 @Component
 public class JwtTokenUtil implements Serializable {
+    @Autowired
+    UserService userService;
     private static final long serialVersionUID = 1L;
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
@@ -68,9 +74,11 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public String generateToken(UserDetails userDetails) {
+        SystemUser systemUser =userService.findWithUsername(userDetails.getUsername());
         Map<String, Object> claims = new HashMap<>();
         claims.put("org", "nashtech");
-        claims.put("authority", userDetails.getAuthorities().iterator().next().getAuthority());
+        claims.put("authority", systemUser.getAuthority());
+
         return generateToken(claims, userDetails.getUsername());
     }
 

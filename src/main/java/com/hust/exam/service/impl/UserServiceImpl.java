@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         if (found != null) {
             return found;
         }
+        System.out.println("dto "+userDTO.toString());
         String username = userDTO.getUsername();
         String password = pwEncoder.passwordEncoder().encode(userDTO.getPassword());
         String firstName = userDTO.getFirstName();
@@ -91,10 +92,17 @@ public class UserServiceImpl implements UserService {
         switch (authority) {
             case "STUDENT":
                 Student student = new Student(username, password, firstName, lastName);
-                return userRepo.save(student);
+                SystemUser resultStudent = userRepo.save(student);
+                resultStudent.setPassword(userDTO.getPassword());
+                System.out.println("result student "+resultStudent );
+                return resultStudent;
             case "TEACHER":
                 Teacher teacher = new Teacher(username, password, firstName, lastName);
-                return userRepo.save(teacher);
+                SystemUser resultTeacher = userRepo.save(teacher);
+                resultTeacher.setPassword(userDTO.getPassword());
+                System.out.println("result teacher "+resultTeacher );
+
+                return resultTeacher;
             default:
                 return null;
         }

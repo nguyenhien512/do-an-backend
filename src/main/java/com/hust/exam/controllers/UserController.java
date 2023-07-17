@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin
+@CrossOrigin(origins = "*")
+
 public class UserController {
 
     @Autowired
     UserService userService;
     @PostMapping("")
     public UserDto registerUser(@RequestBody UserDto userDTO) {
+        System.out.println("User DTO "+userDTO);
         return UserMapper.toDto(userService.createUser(userDTO));
     }
 }
