@@ -15,9 +15,11 @@ public class TestResultDto {
 
     private int id;
 
-    private String studentUsername;
+    private String studentFirstName;
 
-    private int examId;
+    private String studentLastName;
+
+    private int examName;
 
     private int score;
 

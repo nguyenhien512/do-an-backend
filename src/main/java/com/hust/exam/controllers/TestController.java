@@ -2,6 +2,7 @@ package com.hust.exam.controllers;
 
 import com.hust.exam.DTO.StudentTestDto;
 import com.hust.exam.DTO.TestResultDto;
+import com.hust.exam.DTO.TestSubmitDto;
 import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tests")
@@ -34,13 +33,13 @@ public class TestController {
 
     @PostMapping ("/{testId}/answers")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public void postAnswers(@PathVariable int testId, @RequestBody Map<Integer, String> answers) {
+    public void postAnswers(@PathVariable int testId, @RequestBody TestSubmitDto testSubmitDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        testService.postAnswers(currentUserName,testId, answers);
+        testService.postAnswers(currentUserName,testId, testSubmitDto);
     }
 
     @GetMapping("/{testId}/result")

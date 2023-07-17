@@ -1,5 +1,6 @@
 package com.hust.exam.service;
 
+import com.hust.exam.DTO.TestSubmitDto;
 import com.hust.exam.models.*;
 import com.hust.exam.repository.TestRepository;
 import com.hust.exam.utils.MappingUtil;
@@ -47,7 +48,7 @@ public class TestService {
         return testRepository.save(test);
     }
 
-    public void postAnswers(String username, int testId, Map<Integer, String> answers) {
+    public void postAnswers(String username, int testId, TestSubmitDto testSubmitDto) {
         Test found = testRepository.findById(testId).get();
         if (found.isHasSubmit()) {
             return;
@@ -57,7 +58,7 @@ public class TestService {
         }
         found.setSubmitTime(LocalDateTime.now());
         found.setHasSubmit(true);
-        for (Map.Entry<Integer, String> entry : answers.entrySet()) {
+        for (Map.Entry<Integer, String> entry : testSubmitDto.getAnswers().entrySet()) {
             int questionId = entry.getKey();
             String answer = entry.getValue();
             TestQuestionRelation relation = found.getTestQuestionRelations()
