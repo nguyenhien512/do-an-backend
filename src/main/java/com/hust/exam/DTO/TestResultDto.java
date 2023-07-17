@@ -1,7 +1,5 @@
 package com.hust.exam.DTO;
 
-import com.hust.exam.models.Exam;
-import com.hust.exam.models.Student;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,15 +15,13 @@ public class TestResultDto {
 
     private int id;
 
-    private Student student;
+    private String studentUsername;
 
-    private Exam exam;
+    private int examId;
 
     private int score;
 
-    private long duration;
-
-    private LocalDateTime createTime;
+    private LocalDateTime submitTime;
 
     private boolean hasSubmit;
 }

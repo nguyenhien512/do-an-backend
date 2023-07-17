@@ -5,14 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ExamDto {
+public class StudentTestDto {
+
     private int id;
 
-    private List<QuestionDto> questions;
+    private List<StudentQuestionDto> questions;
+
+    private LocalDateTime createTime;
+
 }

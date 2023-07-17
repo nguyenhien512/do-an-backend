@@ -5,18 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShortQuestionDto {
+public class StudentQuestionDto {
 
     private int id;
 
     private String content;
 
-    private List<AnswerDto> answers;
+    private List<AnswerDto> answers = new ArrayList<>();
 
 }

@@ -1,11 +1,11 @@
 package com.hust.exam.models;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -22,6 +22,9 @@ public class StudentClass {
     @Column(name="id")
     private int id;
 
+    @Column(name="name")
+    private String name;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "student_class_relation",
@@ -36,4 +39,5 @@ public class StudentClass {
     @ManyToOne
     @JoinColumn(name = "create_by")
     private Teacher createBy;
+
 }

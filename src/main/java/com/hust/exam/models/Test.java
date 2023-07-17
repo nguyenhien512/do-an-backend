@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -37,28 +36,21 @@ public class Test {
     @Column(name="score")
     private int score;
 
-    @Column(name="duration")
-    private long duration;
+    @Column(name="submit_time")
+    private LocalDateTime submitTime;
 
     @Column(name="create_time")
     private LocalDateTime createTime;
 
     @Column(name="has_submit")
-    private boolean hasSubmit;
+    private boolean hasSubmit = false;
 
-    public void addQuestion (Question question, int questionIndex, MappingRule mappingRule) {
+    public void addQuestion (Question question, MappingRule mappingRule) {
         TestQuestionRelation relation = new TestQuestionRelation();
         relation.setTest(this);
         relation.setQuestion(question);
-        relation.setQuestionIndex(questionIndex);
         relation.setMappingRule(mappingRule);
         testQuestionRelations.add(relation);
     }
-
-    @Transient
-    private List<Question> questions = testQuestionRelations
-            .stream()
-            .map(TestQuestionRelation::getQuestion)
-            .collect(Collectors.toList());
 
 }

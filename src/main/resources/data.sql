@@ -55,10 +55,45 @@ INSERT INTO system_users (username, password, first_name, last_name, authority) 
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher1','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Hoa','Nguyen Thi','TEACHER');
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher2','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Van','Nguyen Thi','TEACHER');
 
-INSERT INTO exams (name, exam_times, max_duration) VALUES ('THI CUOI KI 1',0,2400000);
+INSERT INTO classes (name, create_by) VALUES ('10A5','teacher1');
+
+INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student1');
+INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student2');
+
+INSERT INTO exams (name, exam_times, max_duration, class_id, create_by) VALUES ('THI CUOI KI 1',0,2400000, 1,'teacher1');
 
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 1);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 2);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 3);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 4);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 5);
+
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ABCD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BACD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CABD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ACBD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BCAD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CBAD');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CBDA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BCDA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DCBA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CDBA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BDCA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DBCA');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DACB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ADCB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CDAB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DCAB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ACDB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,CADB');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BADC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ABDC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DBAC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,BDAC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,ADBC');
+INSERT INTO mapping_rules (rule) VALUES ('ABCD,DABC');
+
+
+
+
+
