@@ -30,5 +30,9 @@ public class AnswerMapper {
         return ListMapper.mapList(answers, AnswerDto.class, AnswerMapper::toAnswerDto);
     }
 
+    public static Answer toAnswerEntity(AnswerDto dto) {return modelMapper.map(dto, Answer.class);}
 
+    public static List<Answer> toAnswerList(List<AnswerDto> dtos) {
+        return ListMapper.mapList(dtos, Answer.class, AnswerMapper::toAnswerEntity);
+    }
 }
