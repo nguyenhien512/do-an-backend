@@ -12,7 +12,7 @@ public class TestMapper {
     static {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
     }
-    public static StudentTestDto toExamTestDto (Test test) {
+    public static StudentTestDto toStudentTestDto (Test test) {
         StudentTestDto dto = new StudentTestDto();
         dto.setId(test.getId());
         dto.setCreateTime(test.getCreateTime());
@@ -47,8 +47,9 @@ public class TestMapper {
         return dto;
     }
 
-    public static List<TeacherTestDto> toTeacherTestDtoList (List<Test> tests) {
-        return ListMapper.mapList(tests, TeacherTestDto.class, TestMapper::toTeacherTestDto);
+    public static List<TestResultDto> toTestResultDtoList (List<Test> tests) {
+        return ListMapper.mapList(tests, TestResultDto.class, TestMapper::toTestResultDto);
     }
+
 
 }

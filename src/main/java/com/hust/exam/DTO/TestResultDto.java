@@ -19,7 +19,7 @@ public class TestResultDto {
 
     private String studentLastName;
 
-    private int examName;
+    private String examName;
 
     private int score;
 

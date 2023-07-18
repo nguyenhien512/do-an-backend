@@ -24,6 +24,7 @@ public class QuestionMapper {
         QuestionDto questionDto = new QuestionDto();
         questionDto.setId(quickMap.getId());
         questionDto.setAnswers(quickMap.getAnswers());
+        questionDto.setContent(quickMap.getContent());
         String transformedCorrectAnswers = MappingUtil.mapForward(question.getCorrectAnswers(),mappingRule);
         questionDto.setCorrectAnswers(transformedCorrectAnswers);
         questionDto.setExam_times(question.getExamTimes());

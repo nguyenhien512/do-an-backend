@@ -1,6 +1,9 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.*;
+import com.hust.exam.DTO.StudentTestDto;
+import com.hust.exam.DTO.TeacherTestDto;
+import com.hust.exam.DTO.TestResultDto;
+import com.hust.exam.DTO.TestSubmitDto;
 import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,7 @@ public class TestController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return TestMapper.toExamTestDto(testService.createTest(currentUserName, examId));
+        return TestMapper.toStudentTestDto(testService.createTest(currentUserName, examId));
     }
 
     @PostMapping ("/{testId}/answers")
@@ -42,7 +45,7 @@ public class TestController {
         testService.postAnswers(currentUserName,testId, testSubmitDto);
     }
 
-    @GetMapping("/{testId}/result")
+    @GetMapping("/{testId}/result/forStudent")
     @PreAuthorize("hasAuthority('STUDENT')")
     public TestResultDto getResult(@PathVariable int testId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +58,13 @@ public class TestController {
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('TEACHER')")
-    public List<TeacherTestDto> getTestsByExam(@RequestParam int examId) {
-        return TestMapper.toTeacherTestDtoList(testService.getByExam(examId));
+    public List<TestResultDto> getTestsByExam(@RequestParam int examId) {
+        return TestMapper.toTestResultDtoList(testService.getByExam(examId));
+    }
+
+    @GetMapping("/{testId}/result/forTeacher")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public TeacherTestDto getFullResult(@PathVariable int testId) {
+        return TestMapper.toTeacherTestDto(testService.getResult(testId));
     }
 }

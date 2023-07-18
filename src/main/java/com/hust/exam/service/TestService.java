@@ -97,6 +97,11 @@ public class TestService {
         return foundTest;
     }
 
+    public Test getResult( int testId) {
+        Test foundTest = testRepository.findById(testId).get();
+        return foundTest;
+    }
+
     public List<Test> getByExam(int examId) {
         return testRepository.findByExam(examId);
     }

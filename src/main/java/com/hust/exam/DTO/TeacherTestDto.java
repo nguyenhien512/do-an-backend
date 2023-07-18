@@ -15,6 +15,10 @@ import java.util.List;
 @Setter
 public class TeacherTestDto {
     private int id;
+    private String studentFirstName;
+
+    private String studentLastName;
+
     private String studentUsername;
 
     private int examId;
