@@ -13,8 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TeacherTestDto {
+public class TestDto {
+
     private int id;
+
     private String studentFirstName;
 
     private String studentLastName;
@@ -32,4 +34,5 @@ public class TeacherTestDto {
     private LocalDateTime createTime;
 
     private boolean hasSubmit;
+
 }

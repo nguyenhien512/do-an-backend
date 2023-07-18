@@ -1,10 +1,11 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.AnswerKey;
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="answers")
@@ -28,5 +29,12 @@ public class Answer {
 
     @Column(name="content")
     private String content;
+
+    public Answer cloneAndReplaceKey(AnswerKey newKey) {
+        Answer clone = new Answer();
+        clone.setContent(content);
+        clone.setKey(newKey);
+        return clone;
+    }
 
 }

@@ -13,7 +13,11 @@ public class MappingRuleService {
     MappingRuleRepository mappingRuleRepository;
 
     public MappingRule getRandomRule() {
-        int mappingRuleId = RandomHelper.getRandomInt(1, 25);
+        int mappingRuleId = RandomHelper.getRandomInt(1, countAllRules());
         return mappingRuleRepository.findById(mappingRuleId).get();
+    }
+
+    public int countAllRules() {
+        return (int) mappingRuleRepository.count();
     }
 }

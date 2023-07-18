@@ -2,8 +2,6 @@ package com.hust.exam.DTO;
 
 
 import com.hust.exam.enumobject.ExamStatus;
-import com.hust.exam.models.StudentClass;
-import com.hust.exam.models.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TeacherExamDto {
+public class ExamDto {
 
     private int id;
 
@@ -33,8 +31,8 @@ public class TeacherExamDto {
 
     private int maxRetry;
 
-    private StudentClass studentClass;
+    private String studentClassName;
 
-    private Teacher createByUsername;
+    private String createByUsername;
 
 }

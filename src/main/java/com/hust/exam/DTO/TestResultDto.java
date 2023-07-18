@@ -19,11 +19,10 @@ public class TestResultDto {
 
     private String studentLastName;
 
-    private String examName;
+    private String studentUsername;
 
     private int score;
 
     private LocalDateTime submitTime;
 
-    private boolean hasSubmit;
 }

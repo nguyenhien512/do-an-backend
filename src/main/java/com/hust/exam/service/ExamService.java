@@ -1,6 +1,7 @@
 package com.hust.exam.service;
 
-import com.hust.exam.models.Exam;
+import com.hust.exam.DTO.ExamDto;
+import com.hust.exam.mapper.ExamMapper;
 import com.hust.exam.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,14 @@ public class ExamService {
     @Autowired
     ExamRepository examRepository;
 
-    public Exam findById(int id) {
-        return examRepository.findById(id).get();
+    @Autowired
+    ExamMapper examMapper;
+
+    public List<ExamDto> findByStudent (String username) {
+        return examMapper.toExamDtoList(examRepository.findByStudentUsername(username));
     }
 
-    public List<Exam> findByStudent (String username) {
-        return examRepository.findByStudentUsername(username);
-    }
-
-    public List<Exam> findByTeacher (String username) {
-        return examRepository.findByTeacherUsername(username);
+    public List<ExamDto> findByTeacher (String username) {
+        return examMapper.toExamDtoList(examRepository.findByTeacherUsername(username));
     }
 }
