@@ -1,12 +1,15 @@
 package com.hust.exam.mapper;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.hust.exam.DTO.AnswerDto;
 import com.hust.exam.DTO.QuestionDto;
 import com.hust.exam.DTO.StudentQuestionDto;
+import com.hust.exam.models.Answer;
 import com.hust.exam.models.MappingRule;
 import com.hust.exam.models.Question;
 import com.hust.exam.utils.MappingUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,8 +18,14 @@ import java.util.stream.Collectors;
 public class QuestionMapper {
 
     static ModelMapper modelMapper = new ModelMapper();
+
     public static QuestionDto toQuestionDto(Question question) {
         return modelMapper.map(question, QuestionDto.class);
+    }
+
+    public static Question toQuestionEntity(QuestionDto dto) {
+        Question question = modelMapper.map(dto, Question.class);
+        return question;
     }
 
     public static QuestionDto toQuestionDto(Question question, MappingRule mappingRule) {
