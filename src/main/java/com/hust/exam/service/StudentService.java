@@ -12,7 +12,7 @@ public class StudentService {
     StudentRepository studentRepository;
 
     public Student getStudent(String username) {
-        return studentRepository.findById(username).get();
+        return studentRepository.findById(username).orElseThrow();
     }
 
 }

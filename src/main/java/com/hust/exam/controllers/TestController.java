@@ -1,10 +1,8 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.StudentTestDto;
-import com.hust.exam.DTO.TeacherTestDto;
+import com.hust.exam.DTO.TestDto;
 import com.hust.exam.DTO.TestResultDto;
 import com.hust.exam.DTO.TestSubmitDto;
-import com.hust.exam.mapper.TestMapper;
 import com.hust.exam.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,13 +23,13 @@ public class TestController {
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public StudentTestDto createTest(@RequestParam int examId) {
+    public TestDto createTest(@RequestParam int examId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return TestMapper.toStudentTestDto(testService.createTest(currentUserName, examId));
+        return testService.createTest(currentUserName, examId);
     }
 
     @PostMapping ("/{testId}/answers")
@@ -53,18 +51,18 @@ public class TestController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return TestMapper.toTestResultDto(testService.getResult(currentUserName,testId));
+        return testService.getResult(currentUserName,testId);
     }
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('TEACHER')")
     public List<TestResultDto> getTestsByExam(@RequestParam int examId) {
-        return TestMapper.toTestResultDtoList(testService.getByExam(examId));
+        return testService.getResultByExam(examId);
     }
 
     @GetMapping("/{testId}/result/forTeacher")
     @PreAuthorize("hasAuthority('TEACHER')")
-    public TeacherTestDto getFullResult(@PathVariable int testId) {
-        return TestMapper.toTeacherTestDto(testService.getResult(testId));
+    public TestDto getTestDetail(@PathVariable int testId) {
+        return testService.getDetail(testId);
     }
 }

@@ -25,11 +25,18 @@ public class QuestionService {
     @Autowired
     AnswerRepository answerRepository;
 
-    public List<Question> getAll() {
-        return questionRepository.findAll();
+    @Autowired
+    QuestionMapper questionMapper;
+
+    @Autowired
+    AnswerMapper answerMapper;
+
+    public List<QuestionDto> getAll() {
+        List<Question> questions = questionRepository.findAll();
+        return questionMapper.toQuestionDtoList(questions);
     }
 
-    public List<Question> getRandomQuestions(int size) {
+    public List<QuestionDto> getRandomQuestions(int size) {
         List<Question> result = new ArrayList<>();
         int total = (int) questionRepository.count();
         List<Integer> randomIndexes = RandomHelper.randomIndexes(total,size);
@@ -40,26 +47,29 @@ public class QuestionService {
                 result.add(q);
             }
         }
-        return result;
+        return questionMapper.toQuestionDtoList(result);
     }
 
-    public Question findById(int id){
-        return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+id));
+    public QuestionDto findById(int id){
+        Question question = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+id));
+        return questionMapper.toQuestionDto(question);
     }
 
-    public Question createQuestion(QuestionDto dto){
-        Question entity = QuestionMapper.toQuestionEntity(dto);
+    public QuestionDto createQuestion(QuestionDto dto){
+        Question entity = questionMapper.toQuestionEntity(dto);
         //return entity;
-        return  addAnswerListToDb(questionRepository.save(entity), dto.getAnswers());
+        Question question = addAnswerListToDb(questionRepository.save(entity), dto.getAnswers());
+        return questionMapper.toQuestionDto(question);
     }
 
-    public Question editQuestion(QuestionDto dto) {
+    public QuestionDto editQuestion(QuestionDto dto) {
         Question entity = questionRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+dto.getId()));
         if(entity.getExamTimes() > 0) {
             throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
         }
-        entity = QuestionMapper.toQuestionEntity(dto);
-        return questionRepository.save(entity);
+        entity = questionMapper.toQuestionEntity(dto);
+        Question saved = questionRepository.save(entity);
+        return questionMapper.toQuestionDto(saved);
     }
 
     public void deleteQuestion(int id) {
@@ -74,7 +84,7 @@ public class QuestionService {
         List<Answer> list = new ArrayList<>();
         if(question.getId() >= 0 && !dtos.isEmpty()) {
             dtos.forEach(answerDto -> {
-                Answer answer = AnswerMapper.toAnswerEntity(answerDto);
+                Answer answer = answerMapper.toAnswerEntity(answerDto);
                 answer.setQuestion(question);
                 answerRepository.save(answer);
                 list.add(answer);

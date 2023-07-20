@@ -15,15 +15,10 @@ public class TestResultDto {
 
     private int id;
 
-    private String studentFirstName;
-
-    private String studentLastName;
-
-    private String examName;
+    private StudentDto student;
 
     private int score;
 
     private LocalDateTime submitTime;
 
-    private boolean hasSubmit;
 }

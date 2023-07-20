@@ -1,7 +1,6 @@
 package com.hust.exam.controllers;
 
-import com.hust.exam.DTO.StudentExamDto;
-import com.hust.exam.mapper.ExamMapper;
+import com.hust.exam.DTO.ExamDto;
 import com.hust.exam.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,24 +24,24 @@ public class ExamController {
 
     @GetMapping("/forStudent")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public List<StudentExamDto> getExamsForStudent() {
+    public List<ExamDto> getExamsForStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return ExamMapper.toStudentExamDtoList(examService.findByStudent(currentUserName));
+        return examService.findByStudent(currentUserName);
     }
 
     @GetMapping("/forTeacher")
     @PreAuthorize("hasAuthority('TEACHER')")
-    public List<StudentExamDto> getExamsOfTeacher() {
+    public List<ExamDto> getExamsOfTeacher() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return ExamMapper.toStudentExamDtoList(examService.findByTeacher(currentUserName));
+        return examService.findByTeacher(currentUserName);
     }
 
 }

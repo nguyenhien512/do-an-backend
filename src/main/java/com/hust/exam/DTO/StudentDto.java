@@ -14,5 +14,8 @@ public class StudentDto {
 
     private String username;
 
-//    private List<Integer> tests;
+    private String firstName;
+
+    private String lastName;
+
 }

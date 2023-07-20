@@ -28,6 +28,9 @@ public class TestQuestionRelation {
     @Column(name="answers")
     private String answers;
 
+    @Column(name="question_index")
+    private int questionIndex;
+
     @OneToOne
     @JoinColumn(name="mapping_rule_id", referencedColumnName = "id")
     private MappingRule mappingRule;

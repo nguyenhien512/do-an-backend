@@ -56,4 +56,12 @@ public class Question {
         return correctAnswers.equals(chosenAnswers);
     }
 
+    public Question cloneAndReplaceAnswers(List<Answer> newAnswers) {
+        Question clone = new Question();
+        clone.setId(id);
+        clone.setContent(content);
+        clone.setAnswers(newAnswers);
+        return clone;
+    }
+
 }
