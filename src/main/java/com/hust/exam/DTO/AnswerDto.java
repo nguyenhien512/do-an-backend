@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class AnswerDto {
 
-    private AnswerKey key;
+    private AnswerKey key = AnswerKey.A;
 
     private String content;
 

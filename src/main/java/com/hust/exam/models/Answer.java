@@ -20,7 +20,7 @@ public class Answer {
     private int id;
 
     @ManyToOne
-    @MapsId("questionId")
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
 
     @Column(name="answer_key")
