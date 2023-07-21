@@ -48,20 +48,4 @@ public class Question {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
 
-    public void addAnswer(Answer answer) {
-        answers.add(answer);
-    }
-
-    public boolean checkAnswer(String chosenAnswers) {
-        return correctAnswers.equals(chosenAnswers);
-    }
-
-    public Question cloneAndReplaceAnswers(List<Answer> newAnswers) {
-        Question clone = new Question();
-        clone.setId(id);
-        clone.setContent(content);
-        clone.setAnswers(newAnswers);
-        return clone;
-    }
-
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -25,13 +26,16 @@ public class StudentClass {
     @Column(name="name")
     private String name;
 
+    @Column(name="school_year")
+    private int schoolYear;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "student_class_relation",
             joinColumns = { @JoinColumn(name = "class_id") },
             inverseJoinColumns = { @JoinColumn(name = "student_id") }
     )
-    private List<Student> students;
+    private Set<Student> students;
 
     @OneToMany(mappedBy = "studentClass")
     private List<Exam> exams;

@@ -56,9 +56,7 @@ public class TestService {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
             MappingRule mappingRule = mappingRuleService.getRandomRule();
-            test.addQuestion(question, mappingRule, i);
-            //update exam times of question
-            question.setExamTimes(question.getExamTimes() + 1);
+            addQuestionToTest(test, question, mappingRule, i);
         }
         Test saved = testRepository.save(test);
         Test buildTest = buildTest(saved);
@@ -95,7 +93,7 @@ public class TestService {
         int score = 0;
         for (TestQuestionRelation r : test.getTestQuestionRelations()) {
             String mappedAnswer = MappingUtil.mapBackward(r.getAnswers(), r.getMappingRule());
-            if (r.getQuestion().checkAnswer(mappedAnswer)) {
+            if (checkAnswer(r.getQuestion(), mappedAnswer)) {
                 score += 1;
             }
         }
@@ -136,18 +134,59 @@ public class TestService {
 
             for (Answer answer : question.getAnswers()) {
                 AnswerKey newKey = MappingUtil.mapForward(answer.getKey(),mappingRule);
-                Answer newAnswer = answer.cloneAndReplaceKey(newKey);
+                Answer newAnswer = cloneAndReplaceKey(answer, newKey);
                 shuffleAnswers.add(newAnswer);
             }
 
-            Question newQuestion = question.cloneAndReplaceAnswers(shuffleAnswers);
+            Question newQuestion = cloneAndReplaceAnswers(question, shuffleAnswers);
             newRelation.setQuestion(newQuestion);
             newRelation.setAnswers(relation.getAnswers());
             shuffleRelations.add(newRelation);
         }
 
         shuffleRelations.sort(Comparator.comparingInt(TestQuestionRelation::getQuestionIndex));
-        return test.cloneAndReplaceTestQuestionRelations(shuffleRelations);
+        return cloneAndReplaceTestQuestionRelations(test, shuffleRelations);
+    }
+
+    private void addQuestionToTest(Test test, Question question, MappingRule mappingRule, int questionIndex) {
+        TestQuestionRelation relation = new TestQuestionRelation();
+        relation.setTest(test);
+        relation.setQuestion(question);
+        relation.setMappingRule(mappingRule);
+        relation.setQuestionIndex(questionIndex);
+        test.getTestQuestionRelations().add(relation);
+    }
+
+    private Test cloneAndReplaceTestQuestionRelations(Test test, List<TestQuestionRelation> newRelations) {
+        Test clone = new Test();
+        clone.setId(test.getId());
+        clone.setStudent(test.getStudent());
+        clone.setExam(test.getExam());
+        clone.setScore(test.getScore());
+        clone.setCreateTime(test.getCreateTime());
+        clone.setSubmitTime(test.getSubmitTime());
+        clone.setHasSubmit(test.isHasSubmit());
+        clone.setTestQuestionRelations(newRelations);
+        return clone;
+    }
+
+    private Answer cloneAndReplaceKey(Answer answer, AnswerKey newKey) {
+        Answer clone = new Answer();
+        clone.setContent(answer.getContent());
+        clone.setKey(newKey);
+        return clone;
+    }
+
+    private boolean checkAnswer(Question question, String chosenAnswers) {
+        return question.getCorrectAnswers().equals(chosenAnswers);
+    }
+
+    private Question cloneAndReplaceAnswers(Question question, List<Answer> newAnswers) {
+        Question clone = new Question();
+        clone.setId(question.getId());
+        clone.setContent(question.getContent());
+        clone.setAnswers(newAnswers);
+        return clone;
     }
 
 }
