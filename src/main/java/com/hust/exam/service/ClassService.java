@@ -62,20 +62,17 @@ public class ClassService {
     }
 
     public void deleteClass (int classId) {
-        StudentClass foundClass = classRepository.findById(classId).orElseThrow();
-        foundClass.getStudents().clear();
-        deAttachAllExams(foundClass);
+        StudentClass foundClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp id: "+classId));
+        List<Exam> examList = examRepository.findByStudentClass(foundClass);
+        if(examList.size() > 0) {
+            StudentClass defaultClass = new StudentClass();
+            defaultClass.setId(0);
+            examList.forEach(exam -> {
+                exam.setStudentClass(defaultClass);
+            });
+        }
+        examRepository.saveAll(examList);
         classRepository.delete(foundClass);
-    }
-
-    private void deAttachAllExams (StudentClass studentClass) {
-        studentClass.getExams().clear();
-        StudentClass defaultClass = new StudentClass();
-        defaultClass.setId(0);
-        studentClass.getExams().forEach(exam -> {
-            exam.setStudentClass(defaultClass);
-            examRepository.save(exam);
-        });
     }
 
 }
