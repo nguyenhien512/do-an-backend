@@ -33,6 +33,9 @@ public class TestService {
     @Autowired
     TestMapper testMapper;
 
+    @Autowired
+    ExamService examService;
+
 
     public TestDto createTest(String username, int examId) {
         Student student = (Student) userRepository.findById(username).orElseThrow();
@@ -40,6 +43,10 @@ public class TestService {
 
         if (countByExamAndStudent(exam, student) >= exam.getMaxRetry()) {
             throw new RuntimeException("Student exceed limit to do exam");
+        }
+
+        if (!examService.checkExamOpen(exam)) {
+            throw new RuntimeException("Exam is not opened or has been closed");
         }
 
         Test test = new Test();
@@ -59,7 +66,7 @@ public class TestService {
             addQuestionToTest(test, question, mappingRule, i);
         }
         Test saved = testRepository.save(test);
-        Test buildTest = buildTest(saved);
+        Test buildTest = buildTest(saved, false);
         return testMapper.toTestDto(buildTest);
     }
 
@@ -110,7 +117,8 @@ public class TestService {
 
     public TestDto getDetail( int testId) {
         Test foundTest = testRepository.findById(testId).orElseThrow();
-        return testMapper.toTestDto(foundTest);
+        Test build = buildTest(foundTest, true);
+        return testMapper.toTestDto(build);
     }
 
     public List<TestResultDto> getResultByExam(int examId) {
@@ -121,7 +129,7 @@ public class TestService {
         return testRepository.countByExamAndStudent(exam, student);
     }
 
-    public Test buildTest (Test test) {
+    public Test buildTest (Test test, boolean showCorrectAnswer) {
         List<TestQuestionRelation> shuffleRelations = new ArrayList<>();
 
         for (TestQuestionRelation relation : test.getTestQuestionRelations()) {
@@ -133,19 +141,19 @@ public class TestService {
             List<Answer> shuffleAnswers = new ArrayList<>();
 
             for (Answer answer : question.getAnswers()) {
-                AnswerKey newKey = MappingUtil.mapForward(answer.getKey(),mappingRule);
-                Answer newAnswer = cloneAndReplaceKey(answer, newKey);
+                Answer newAnswer = cloneAnswerAndReplaceKey(answer, mappingRule);
                 shuffleAnswers.add(newAnswer);
             }
 
-            Question newQuestion = cloneAndReplaceAnswers(question, shuffleAnswers);
+            Question newQuestion = cloneQuestionAndReplaceAnswers(question, shuffleAnswers, showCorrectAnswer, mappingRule);
             newRelation.setQuestion(newQuestion);
             newRelation.setAnswers(relation.getAnswers());
+            newRelation.setQuestionIndex(relation.getQuestionIndex());
             shuffleRelations.add(newRelation);
         }
 
         shuffleRelations.sort(Comparator.comparingInt(TestQuestionRelation::getQuestionIndex));
-        return cloneAndReplaceTestQuestionRelations(test, shuffleRelations);
+        return cloneTestAndReplaceTestQuestionRelations(test, shuffleRelations);
     }
 
     private void addQuestionToTest(Test test, Question question, MappingRule mappingRule, int questionIndex) {
@@ -157,7 +165,7 @@ public class TestService {
         test.getTestQuestionRelations().add(relation);
     }
 
-    private Test cloneAndReplaceTestQuestionRelations(Test test, List<TestQuestionRelation> newRelations) {
+    private Test cloneTestAndReplaceTestQuestionRelations(Test test, List<TestQuestionRelation> newRelations) {
         Test clone = new Test();
         clone.setId(test.getId());
         clone.setStudent(test.getStudent());
@@ -170,10 +178,11 @@ public class TestService {
         return clone;
     }
 
-    private Answer cloneAndReplaceKey(Answer answer, AnswerKey newKey) {
+    private Answer cloneAnswerAndReplaceKey(Answer answer, MappingRule mappingRule) {
+        AnswerKey mappedKey = MappingUtil.mapForward(answer.getKey(),mappingRule);
         Answer clone = new Answer();
         clone.setContent(answer.getContent());
-        clone.setKey(newKey);
+        clone.setKey(mappedKey);
         return clone;
     }
 
@@ -181,11 +190,15 @@ public class TestService {
         return question.getCorrectAnswers().equals(chosenAnswers);
     }
 
-    private Question cloneAndReplaceAnswers(Question question, List<Answer> newAnswers) {
+    private Question cloneQuestionAndReplaceAnswers(Question question, List<Answer> newAnswers, boolean showCorrectAnswer, MappingRule mappingRule) {
         Question clone = new Question();
         clone.setId(question.getId());
         clone.setContent(question.getContent());
         clone.setAnswers(newAnswers);
+        if (showCorrectAnswer) {
+            String mappedCorrectAnswer = MappingUtil.mapForward(question.getCorrectAnswers(),mappingRule);
+            clone.setCorrectAnswers(mappedCorrectAnswer);
+        }
         return clone;
     }
 

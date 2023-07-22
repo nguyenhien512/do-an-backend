@@ -41,8 +41,8 @@ public class MappingUtil {
         List<String> keys = Arrays.asList(transformedKeys.split(","));
         StringJoiner joiner = new StringJoiner(",");
         for (String key : keys) {
-            int index = from.indexOf(key);
-            joiner.add(to.get(index));
+            int index = to.indexOf(key);
+            joiner.add(from.get(index));
         }
         return joiner.toString();
     }

@@ -33,6 +33,10 @@ public class ExamDto {
 
     private String studentClassName;
 
-    private String createByUsername;
+    private TeacherDto createBy;
+
+    private boolean isAfterOpen;
+
+    private boolean isBeforeClose;
 
 }
