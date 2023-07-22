@@ -35,8 +35,4 @@ public class ExamDto {
 
     private TeacherDto createBy;
 
-    private boolean isAfterOpen;
-
-    private boolean isBeforeClose;
-
 }
