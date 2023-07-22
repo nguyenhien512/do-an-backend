@@ -65,9 +65,7 @@ public class ClassService {
         StudentClass foundClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp id: "+classId));
         List<Exam> examList = examRepository.findByStudentClass(foundClass);
         if(examList.size() > 0) {
-            examList.forEach(exam -> {
-                exam.setStudentClass(null);
-            });
+            examList.forEach(exam -> exam.setStudentClass(null));
         }
         examRepository.saveAll(examList);
         foundClass.getStudents().clear();

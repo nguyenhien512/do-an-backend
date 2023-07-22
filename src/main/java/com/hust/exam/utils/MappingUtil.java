@@ -14,10 +14,10 @@ public class MappingUtil {
             return originalKeys; //ABCD,BCDA
 
         }
-        String[] rule = mappingRule.getRule().split(","); //ABCD và BCDA
-        List<String> from = Arrays.asList(rule[0].split("")); //[A,B,C,D]
+        String[] rule = mappingRule.getRule().split(","); //[ABCD,BCDA]
+        List<String> from = Arrays.asList(rule[0].split("")); //[A, B, C,D]
         List<String> to = Arrays.asList(rule[1].split("")); //[B, C, D, A]
-        List<String> keys = Arrays.asList(originalKeys.split(","));
+        String[] keys = originalKeys.split(",");
         StringJoiner joiner = new StringJoiner(",");
         for (String key : keys) {
             int index = from.indexOf(key);
@@ -35,10 +35,10 @@ public class MappingUtil {
         if (mappingRule == null || transformedKeys == null) {
             return transformedKeys;
         }
-        String[] rule = mappingRule.getRule().split(","); //[A,B,C,D]
-        List<String> from = Arrays.asList(rule[0].split("")); //[B, C, D, A]
-        List<String> to = Arrays.asList(rule[1].split(""));
-        List<String> keys = Arrays.asList(transformedKeys.split(","));
+        String[] rule = mappingRule.getRule().split(","); //[ABCD,BCDA]
+        List<String> from = Arrays.asList(rule[0].split("")); //[A, B, C, D]
+        List<String> to = Arrays.asList(rule[1].split(""));//[B, C, D, A]
+        String[] keys = transformedKeys.split(",");
         StringJoiner joiner = new StringJoiner(",");
         for (String key : keys) {
             int index = to.indexOf(key);
