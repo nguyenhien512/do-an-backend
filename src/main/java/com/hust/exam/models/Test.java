@@ -45,26 +45,4 @@ public class Test {
     @Column(name="has_submit")
     private boolean hasSubmit = false;
 
-    public void addQuestion (Question question, MappingRule mappingRule, int questionIndex) {
-        TestQuestionRelation relation = new TestQuestionRelation();
-        relation.setTest(this);
-        relation.setQuestion(question);
-        relation.setMappingRule(mappingRule);
-        relation.setQuestionIndex(questionIndex);
-        testQuestionRelations.add(relation);
-    }
-
-    public Test cloneAndReplaceTestQuestionRelations(List<TestQuestionRelation> newRelations) {
-        Test clone = new Test();
-        clone.setId(id);
-        clone.setStudent(student);
-        clone.setExam(exam);
-        clone.setScore(score);
-        clone.setCreateTime(createTime);
-        clone.setSubmitTime(submitTime);
-        clone.setHasSubmit(hasSubmit);
-        clone.setTestQuestionRelations(newRelations);
-        return clone;
-    }
-
 }

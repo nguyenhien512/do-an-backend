@@ -30,11 +30,4 @@ public class Answer {
     @Column(name="content")
     private String content;
 
-    public Answer cloneAndReplaceKey(AnswerKey newKey) {
-        Answer clone = new Answer();
-        clone.setContent(content);
-        clone.setKey(newKey);
-        return clone;
-    }
-
 }

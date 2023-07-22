@@ -55,12 +55,14 @@ INSERT INTO system_users (username, password, first_name, last_name, authority) 
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher1','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Hoa','Nguyen Thi','TEACHER');
 INSERT INTO system_users (username, password, first_name, last_name, authority) VALUES ('teacher2','$2a$12$m/8juUH6JdCLSWAXEDIyKOH24zJRS03r7Lb2TZCJdVTHQebx65teW','Van','Nguyen Thi','TEACHER');
 
-INSERT INTO classes (name, create_by) VALUES ('10A5','teacher1');
+INSERT INTO classes (name, create_by, school_year) VALUES ('10A5','teacher1', 2023);
 
 INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student1');
 INSERT INTO student_class_relation (class_id, student_id) VALUES (1,'student2');
 
-INSERT INTO exams (name, exam_times, max_duration, max_retry, class_id, create_by) VALUES ('ĐỀ THI CUỐI HỌC KÌ 1',0,2400000,5, 1,'teacher1');
+INSERT INTO exams (name, exam_times, open_time, close_time, max_duration, max_retry, class_id, create_by, status) VALUES ('ĐỀ THI CUỐI HỌC KÌ 2 2023',0,'2023-07-01 17:51:04.777','2023-07-30 17:51:04.777',2400000,5, 1,'teacher1','PUBLISHED');
+INSERT INTO exams (name, exam_times, open_time, close_time, max_duration, max_retry, class_id, create_by, status) VALUES ('ĐỀ THI OLYMPIC 2023',0,'2023-08-01 00:00:00','2023-08-15 00:00:00',2400000,5, 1,'teacher1','PUBLISHED');
+INSERT INTO exams (name, exam_times, open_time, close_time, max_duration, max_retry, class_id, create_by, status) VALUES ('ĐỀ THI ĐẦU NĂM HỌC 2024',0,'2023-07-01 00:00:00','2023-07-30 00:00:00',2400000,5, 1,'teacher1','UNPUBLISHED');
 
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 1);
 INSERT INTO exam_question_relation (exam_id, question_id) VALUES (1, 2);

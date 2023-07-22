@@ -22,15 +22,15 @@ public class ExamController {
     @Autowired
     ExamService examService;
 
-    @GetMapping("/forStudent")
+    @GetMapping("/publishedExam/forStudent")
     @PreAuthorize("hasAuthority('STUDENT')")
-    public List<ExamDto> getExamsForStudent() {
+    public List<ExamDto> getPublishedExamForStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = null;
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        return examService.findByStudent(currentUserName);
+        return examService.findPublishedExamsByStudent(currentUserName);
     }
 
     @GetMapping("/forTeacher")

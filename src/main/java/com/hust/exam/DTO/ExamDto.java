@@ -33,6 +33,6 @@ public class ExamDto {
 
     private String studentClassName;
 
-    private String createByUsername;
+    private TeacherDto createBy;
 
 }

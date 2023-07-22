@@ -37,9 +37,9 @@ public class Exam {
     @Column(name="close_time")
     private LocalDateTime closeTime;
 
-    @Column(name="exam_status")
+    @Column(name="status")
     @Enumerated(EnumType.STRING)
-    private ExamStatus examStatus;
+    private ExamStatus status;
 
     @Column(name="max_retry")
     private int maxRetry;

@@ -33,6 +33,9 @@ public class TestService {
     @Autowired
     TestMapper testMapper;
 
+    @Autowired
+    ExamService examService;
+
 
     public TestDto createTest(String username, int examId) {
         Student student = (Student) userRepository.findById(username).orElseThrow();
@@ -40,6 +43,10 @@ public class TestService {
 
         if (countByExamAndStudent(exam, student) >= exam.getMaxRetry()) {
             throw new RuntimeException("Student exceed limit to do exam");
+        }
+
+        if (!examService.checkExamOpen(exam)) {
+            throw new RuntimeException("Exam is not opened or has been closed");
         }
 
         Test test = new Test();
@@ -56,12 +63,10 @@ public class TestService {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
             MappingRule mappingRule = mappingRuleService.getRandomRule();
-            test.addQuestion(question, mappingRule, i);
-            //update exam times of question
-            question.setExamTimes(question.getExamTimes() + 1);
+            addQuestionToTest(test, question, mappingRule, i);
         }
         Test saved = testRepository.save(test);
-        Test buildTest = buildTest(saved);
+        Test buildTest = buildTest(saved, false);
         return testMapper.toTestDto(buildTest);
     }
 
@@ -95,7 +100,7 @@ public class TestService {
         int score = 0;
         for (TestQuestionRelation r : test.getTestQuestionRelations()) {
             String mappedAnswer = MappingUtil.mapBackward(r.getAnswers(), r.getMappingRule());
-            if (r.getQuestion().checkAnswer(mappedAnswer)) {
+            if (checkAnswer(r.getQuestion(), mappedAnswer)) {
                 score += 1;
             }
         }
@@ -112,7 +117,8 @@ public class TestService {
 
     public TestDto getDetail( int testId) {
         Test foundTest = testRepository.findById(testId).orElseThrow();
-        return testMapper.toTestDto(foundTest);
+        Test build = buildTest(foundTest, true);
+        return testMapper.toTestDto(build);
     }
 
     public List<TestResultDto> getResultByExam(int examId) {
@@ -123,7 +129,7 @@ public class TestService {
         return testRepository.countByExamAndStudent(exam, student);
     }
 
-    public Test buildTest (Test test) {
+    public Test buildTest (Test test, boolean showCorrectAnswer) {
         List<TestQuestionRelation> shuffleRelations = new ArrayList<>();
 
         for (TestQuestionRelation relation : test.getTestQuestionRelations()) {
@@ -135,19 +141,65 @@ public class TestService {
             List<Answer> shuffleAnswers = new ArrayList<>();
 
             for (Answer answer : question.getAnswers()) {
-                AnswerKey newKey = MappingUtil.mapForward(answer.getKey(),mappingRule);
-                Answer newAnswer = answer.cloneAndReplaceKey(newKey);
+                Answer newAnswer = cloneAnswerAndReplaceKey(answer, mappingRule);
                 shuffleAnswers.add(newAnswer);
             }
 
-            Question newQuestion = question.cloneAndReplaceAnswers(shuffleAnswers);
+            Question newQuestion = cloneQuestionAndReplaceAnswers(question, shuffleAnswers, showCorrectAnswer, mappingRule);
             newRelation.setQuestion(newQuestion);
             newRelation.setAnswers(relation.getAnswers());
+            newRelation.setQuestionIndex(relation.getQuestionIndex());
             shuffleRelations.add(newRelation);
         }
 
         shuffleRelations.sort(Comparator.comparingInt(TestQuestionRelation::getQuestionIndex));
-        return test.cloneAndReplaceTestQuestionRelations(shuffleRelations);
+        return cloneTestAndReplaceTestQuestionRelations(test, shuffleRelations);
+    }
+
+    private void addQuestionToTest(Test test, Question question, MappingRule mappingRule, int questionIndex) {
+        TestQuestionRelation relation = new TestQuestionRelation();
+        relation.setTest(test);
+        relation.setQuestion(question);
+        relation.setMappingRule(mappingRule);
+        relation.setQuestionIndex(questionIndex);
+        test.getTestQuestionRelations().add(relation);
+    }
+
+    private Test cloneTestAndReplaceTestQuestionRelations(Test test, List<TestQuestionRelation> newRelations) {
+        Test clone = new Test();
+        clone.setId(test.getId());
+        clone.setStudent(test.getStudent());
+        clone.setExam(test.getExam());
+        clone.setScore(test.getScore());
+        clone.setCreateTime(test.getCreateTime());
+        clone.setSubmitTime(test.getSubmitTime());
+        clone.setHasSubmit(test.isHasSubmit());
+        clone.setTestQuestionRelations(newRelations);
+        return clone;
+    }
+
+    private Answer cloneAnswerAndReplaceKey(Answer answer, MappingRule mappingRule) {
+        AnswerKey mappedKey = MappingUtil.mapForward(answer.getKey(),mappingRule);
+        Answer clone = new Answer();
+        clone.setContent(answer.getContent());
+        clone.setKey(mappedKey);
+        return clone;
+    }
+
+    private boolean checkAnswer(Question question, String chosenAnswers) {
+        return question.getCorrectAnswers().equals(chosenAnswers);
+    }
+
+    private Question cloneQuestionAndReplaceAnswers(Question question, List<Answer> newAnswers, boolean showCorrectAnswer, MappingRule mappingRule) {
+        Question clone = new Question();
+        clone.setId(question.getId());
+        clone.setContent(question.getContent());
+        clone.setAnswers(newAnswers);
+        if (showCorrectAnswer) {
+            String mappedCorrectAnswer = MappingUtil.mapForward(question.getCorrectAnswers(),mappingRule);
+            clone.setCorrectAnswers(mappedCorrectAnswer);
+        }
+        return clone;
     }
 
 }
