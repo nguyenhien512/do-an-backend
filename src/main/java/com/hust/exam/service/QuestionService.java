@@ -77,6 +77,10 @@ public class QuestionService {
         if(entity.getExamTimes() > 0) {
             throw new RuntimeException("Không thể xóa câu hỏi đã từng có trong đề thi!");
         }
+        List<Answer> answerList = answerRepository.findByQuestion(entity);
+        if(answerList.size() > 0) {
+            answerRepository.deleteAll(answerList);
+        }
         questionRepository.delete(entity);
     }
 
