@@ -34,7 +34,7 @@ public class Test {
     private List<TestQuestionRelation> testQuestionRelations = new ArrayList<>();
 
     @Column(name="score")
-    private int score;
+    private float score;
 
     @Column(name="submit_time")
     private LocalDateTime submitTime;

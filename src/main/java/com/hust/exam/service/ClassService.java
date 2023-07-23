@@ -27,13 +27,13 @@ public class ClassService {
     ExamRepository examRepository;
 
     public List<ClassDto> findByCreateBy (String createByUsername) {
-        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow();
+        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow(() -> new RuntimeException("Teacher not exist"));
         List<StudentClass> classes = classRepository.findByCreateBy(foundTeacher);
         return classMapper.toClassDtoList(classes);
     }
 
     public ClassDto findById (int classId) {
-        StudentClass found = classRepository.findById(classId).orElseThrow();
+        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("StudentClass not exist"));
         return classMapper.toClassDto(found);
     }
 
@@ -42,6 +42,14 @@ public class ClassService {
         StudentClass newClass = classMapper.toEntity(classDto);
         newClass.setCreateBy(foundTeacher);
         StudentClass saved = classRepository.save(newClass);
+        return classMapper.toClassDto(saved);
+    }
+
+    public ClassDto updateClass (int classId, ClassDto classDto) {
+        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Can not update StudentClass not exist"));
+        found.setName(classDto.getName());
+        found.setSchoolYear(classDto.getSchoolYear());
+        StudentClass saved = classRepository.save(found);
         return classMapper.toClassDto(saved);
     }
 

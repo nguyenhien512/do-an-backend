@@ -27,7 +27,7 @@ public class ExamDto {
 
     private LocalDateTime closeTime;
 
-    private ExamStatus examStatus;
+    private ExamStatus status;
 
     private int maxRetry;
 
