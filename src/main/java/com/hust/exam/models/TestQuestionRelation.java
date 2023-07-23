@@ -31,6 +31,9 @@ public class TestQuestionRelation {
     @Column(name="question_index")
     private int questionIndex;
 
+    @Column(name="is_correct")
+    private boolean isCorrect;
+
     @OneToOne
     @JoinColumn(name="mapping_rule_id", referencedColumnName = "id")
     private MappingRule mappingRule;

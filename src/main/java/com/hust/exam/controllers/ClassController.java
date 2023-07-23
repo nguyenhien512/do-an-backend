@@ -38,7 +38,7 @@ public class ClassController {
                 return new ResponseEntity<>(classService.findById(id), HttpStatus.OK);
         }
 
-        @PostMapping("")
+        @PostMapping("/create")
         @PreAuthorize("hasAuthority('TEACHER')")
         public ResponseEntity<ClassDto> createClass(@RequestBody ClassDto dto) {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,6 +47,12 @@ public class ClassController {
                         currentUserName = authentication.getName();
                 }
                 return new ResponseEntity<>(classService.createClass(currentUserName,dto), HttpStatus.CREATED);
+        }
+
+        @PutMapping("/{id}/edit")
+        @PreAuthorize("hasAuthority('TEACHER')")
+        public ResponseEntity<ClassDto> editClass(@PathVariable int id, @RequestBody ClassDto dto) {
+                return new ResponseEntity<>(classService.updateClass(id, dto), HttpStatus.OK);
         }
 
         @PutMapping("/{id}/addStudent")
@@ -61,7 +67,7 @@ public class ClassController {
                 return new ResponseEntity<>(classService.removeStudent(id, student), HttpStatus.OK);
         }
 
-        @DeleteMapping("/{id}")
+        @DeleteMapping("/{id}/delete")
         @PreAuthorize("hasAuthority('TEACHER')")
         public ResponseEntity<?> deleteClass(@PathVariable("id") int id) {
                 classService.deleteClass(id);

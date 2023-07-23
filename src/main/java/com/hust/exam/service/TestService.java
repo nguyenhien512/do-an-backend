@@ -91,20 +91,24 @@ public class TestService {
                     .get(0);
             relation.setAnswers(answer);
         }
-        int score = calculateScore(found);
+        float score = calculateScore(found);
         found.setScore(score);
         testRepository.save(found);
     }
 
-    public int calculateScore(Test test) {
-        int score = 0;
+    public float calculateScore(Test test) {
+        int numberOfCorrectAnswers = 0;
+        int totalQuestions = test.getTestQuestionRelations().size();
         for (TestQuestionRelation r : test.getTestQuestionRelations()) {
             String mappedAnswer = MappingUtil.mapBackward(r.getAnswers(), r.getMappingRule());
             if (checkAnswer(r.getQuestion(), mappedAnswer)) {
-                score += 1;
+                numberOfCorrectAnswers += 1;
+                r.setCorrect(true);
+            } else {
+                r.setCorrect(false);
             }
         }
-        return score;
+        return (float) numberOfCorrectAnswers / totalQuestions * 10;
     }
 
     public TestResultDto getResult(String username, int testId) {
