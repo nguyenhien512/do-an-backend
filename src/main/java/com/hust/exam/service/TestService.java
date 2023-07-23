@@ -144,6 +144,7 @@ public class TestService {
                 Answer newAnswer = cloneAnswerAndReplaceKey(answer, mappingRule);
                 shuffleAnswers.add(newAnswer);
             }
+            shuffleAnswers.sort(Comparator.comparing(Answer::getKey));
 
             Question newQuestion = cloneQuestionAndReplaceAnswers(question, shuffleAnswers, showCorrectAnswer, mappingRule);
             newRelation.setQuestion(newQuestion);
