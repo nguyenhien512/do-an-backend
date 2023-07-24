@@ -68,7 +68,7 @@ public class QuestionService {
             throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
         }
         entity = questionMapper.toQuestionEntity(dto);
-        Question saved = questionRepository.save(entity);
+        Question saved = questionRepository.save(addAnswerListToDb(entity, dto.getAnswers()));
         return questionMapper.toQuestionDto(saved);
     }
 
@@ -88,13 +88,27 @@ public class QuestionService {
         List<Answer> list = new ArrayList<>();
         if(question.getId() >= 0 && !dtos.isEmpty()) {
             dtos.forEach(answerDto -> {
-                Answer answer = answerMapper.toAnswerEntity(answerDto);
-                answer.setQuestion(question);
-                answerRepository.save(answer);
-                list.add(answer);
+                if(answerDto.getId() == 0) {
+                    Answer answer = answerMapper.toAnswerEntity(answerDto);
+                    answer.setQuestion(question);
+                    answerRepository.save(answer);
+                    list.add(answer);
+                }
+                else{
+                    Answer answer = updateAnswer(answerDto);
+                    list.add(answer);
+                }
             });
         }
         question.setAnswers(list);
         return question;
     }
+
+    public Answer updateAnswer(AnswerDto answerDto) {
+        Answer answer = answerRepository.findById(answerDto.getId()).orElseThrow(() -> new RuntimeException("Không tìm thấy câu trả lời với id: "+answerDto.getId()));
+        answer.setKey(answerDto.getKey());
+        answer.setContent(answerDto.getContent());
+        return answerRepository.save(answer);
+    }
+
 }
