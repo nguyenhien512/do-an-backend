@@ -30,8 +30,13 @@ public class UserController {
         return UserMapper.toDto(userService.createUser(userDTO));
     }
 
-    @GetMapping("/statistic/{id}")
+    @GetMapping("/statistic/byPoint/{id}")
     public ResponseEntity<List<StatisticRecord>> getStatisticByExamId(@PathVariable("id") int id) {
         return new ResponseEntity<>(statisticService.getDataByExam(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/statistic/byQues/{id}")
+    public ResponseEntity<List<StatisticRecord>> getStatisticByQuesId(@PathVariable("id") int id) {
+        return new ResponseEntity<>(statisticService.getDataByQuesAnswer(id), HttpStatus.OK);
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface StatisticService {
     List<StatisticRecord> getDataByExam(int examId);
+    List<StatisticRecord> getDataByQuesAnswer(int examId);
 }

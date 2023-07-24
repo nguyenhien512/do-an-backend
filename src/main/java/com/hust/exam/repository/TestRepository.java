@@ -17,4 +17,7 @@ public interface TestRepository extends JpaRepository<Test, Integer> {
 
     @Query(value = "SELECT COUNT(*) FROM Test t WHERE t.exam = ?1 AND t.student = ?2")
     int countByExamAndStudent(Exam exam, Student student);
+
+    @Query(value = "select tq.question_id from tests t join test_question_relation tq on t.id = tq.test_id where t.exam_id = :examId", nativeQuery = true)
+    List<Integer> findQuestionIdByExam(int examId);
 }
