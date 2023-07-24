@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class AnswerDto {
 
+    private int id = 0;
+
     private AnswerKey key = AnswerKey.A;
 
     private String content;
