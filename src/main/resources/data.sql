@@ -95,7 +95,8 @@ INSERT INTO mapping_rules (rule) VALUES ('ABCD,BDAC');
 INSERT INTO mapping_rules (rule) VALUES ('ABCD,ADBC');
 INSERT INTO mapping_rules (rule) VALUES ('ABCD,DABC');
 
-
+INSERT INTO `tests` VALUES (1,NULL,NULL,7.2,NULL,1,NULL),(2,NULL,NULL,7.5,NULL,1,NULL),(3,NULL,NULL,8,NULL,1,NULL),(4,NULL,NULL,8.1,NULL,1,NULL),(5,NULL,NULL,8.3,NULL,1,NULL),(6,NULL,NULL,9,NULL,1,NULL),(7,NULL,NULL,9.9,NULL,1,NULL),(8,NULL,NULL,10,NULL,1,NULL);
+INSERT INTO `test_question_relation` VALUES (NULL,_binary '',NULL,1,1,NULL),(NULL,_binary '',NULL,1,2,NULL),(NULL,_binary '',NULL,1,3,NULL),(NULL,_binary '\0',NULL,1,4,NULL),(NULL,_binary '',NULL,2,1,NULL),(NULL,_binary '\0',NULL,2,2,NULL),(NULL,_binary '\0',NULL,3,1,NULL),(NULL,_binary '',NULL,3,2,NULL);
 
 
 
