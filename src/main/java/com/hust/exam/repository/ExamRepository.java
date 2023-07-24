@@ -19,4 +19,10 @@ public interface ExamRepository  extends JpaRepository<Exam,Integer> {
     List<Exam> findByTeacherUsername(String username);
 
     List<Exam> findByStudentClass(StudentClass studentClass);
+
+    @Query(value = "select count(t.id) from exams e join tests t on t.exam_id = e.id where t.exam_id = :id and t.score >= :below and t.score < :upper", nativeQuery = true)
+    int findStudentNumByPoint(int id, int upper, int below);
+
+    @Query(value = "select count(t.id) from exams e join tests t on t.exam_id = e.id where t.exam_id = :id and t.score >= 9 and t.score <= 10", nativeQuery = true)
+    int findStudentNumByPoint10(int id);
 }

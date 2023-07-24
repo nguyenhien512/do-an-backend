@@ -3,6 +3,8 @@ package com.hust.exam.controllers;
 import com.hust.exam.DTO.ExamDto;
 import com.hust.exam.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,4 +46,9 @@ public class ExamController {
         return examService.findByTeacher(currentUserName);
     }
 
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<List<ExamDto>> getAllExam() {
+        return new ResponseEntity<>(examService.findAll(), HttpStatus.OK);
+    }
 }

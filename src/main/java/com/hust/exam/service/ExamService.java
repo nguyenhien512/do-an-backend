@@ -20,6 +20,9 @@ public class ExamService {
     @Autowired
     ExamMapper examMapper;
 
+    public List<ExamDto> findAll (){
+        return examMapper.toExamDtoList(examRepository.findAll());
+    }
     public List<ExamDto> findPublishedExamsByStudent (String username) {
         return examMapper.toExamDtoList(examRepository.findExamsByStudent(username, ExamStatus.PUBLISHED));
     }
