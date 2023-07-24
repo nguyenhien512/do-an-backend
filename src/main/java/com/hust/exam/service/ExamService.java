@@ -39,7 +39,7 @@ public class ExamService {
     }
 
     public List<ExamCountDto> countTestsByClassGroupByStudent(int classId) {
-        List<ExamCount> examCounts = examRepository.countTestsByClassGroupByStudent(1);
+        List<ExamCount> examCounts = examRepository.countTestsByClassGroupByStudent(classId);
         return examMapper.toExamCountDtoList(examCounts);
     }
 }
