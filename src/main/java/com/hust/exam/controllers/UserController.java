@@ -39,4 +39,9 @@ public class UserController {
     public ResponseEntity<List<StatisticRecord>> getStatisticByQuesId(@PathVariable("id") int id) {
         return new ResponseEntity<>(statisticService.getDataByQuesAnswer(id), HttpStatus.OK);
     }
+
+    @GetMapping("/statistic/byStudent/{id}")
+    public ResponseEntity<List<StatisticRecord>> getStatisticByStudentId(@PathVariable("id") int id) {
+        return new ResponseEntity<>(statisticService.getStudentInfor(id), HttpStatus.OK);
+    }
 }
