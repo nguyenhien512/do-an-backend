@@ -67,6 +67,12 @@ public class ExamController {
         return new ResponseEntity<>(examService.updateExam(dto), HttpStatus.OK);
     }
 
+    @PutMapping("/publish/{id}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<ExamDto> publishExam(@PathVariable("id") int id) {
+        return new ResponseEntity<>(examService.publishExam(id), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<ExamDto> createExam(@RequestBody ExamDto dto) {
