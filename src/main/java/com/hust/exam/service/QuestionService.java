@@ -58,12 +58,14 @@ public class QuestionService {
     public QuestionDto createQuestion(QuestionDto dto){
         Question entity = questionMapper.toQuestionEntity(dto);
         //return entity;
+        entity.setExamTimes(0);
         Question question = addAnswerListToDb(questionRepository.save(entity), dto.getAnswers());
         return questionMapper.toQuestionDto(question);
     }
 
     public QuestionDto editQuestion(QuestionDto dto) {
         Question entity = questionRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+dto.getId()));
+        dto.setExam_times(entity.getExamTimes());
         if(entity.getExamTimes() > 0) {
             throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
         }
