@@ -65,7 +65,6 @@ public class StatisticServiceImpl implements StatisticService {
         List<StudentScore> students
                 = Collections.checkedList(
                 em.createNamedQuery("StudentScore").setParameter("examId", examId).getResultList(), StudentScore.class);
-        System.out.println("Điểm ---------------------------------------------- : " + students.get(0).getScore());
         return StatisticMapper.toDtoList(students);
     }
 
