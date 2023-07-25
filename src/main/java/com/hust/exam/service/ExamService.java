@@ -1,9 +1,11 @@
 package com.hust.exam.service;
 
+import com.hust.exam.DTO.ExamCountDto;
 import com.hust.exam.DTO.ExamDto;
 import com.hust.exam.enumobject.ExamStatus;
 import com.hust.exam.mapper.ExamMapper;
 import com.hust.exam.models.Exam;
+import com.hust.exam.models.ExamCount;
 import com.hust.exam.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,10 @@ public class ExamService {
     public boolean checkExamOpen(Exam exam) {
         LocalDateTime now = LocalDateTime.now();
         return exam.getOpenTime().isBefore(now) && exam.getCloseTime().isAfter(now);
+    }
+
+    public List<ExamCountDto> countTestsByClassGroupByStudent(int classId) {
+        List<ExamCount> examCounts = examRepository.countTestsByClassGroupByStudent(classId);
+        return examMapper.toExamCountDtoList(examCounts);
     }
 }

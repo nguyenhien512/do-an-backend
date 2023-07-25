@@ -2,6 +2,7 @@ package com.hust.exam.repository;
 
 import com.hust.exam.enumobject.ExamStatus;
 import com.hust.exam.models.Exam;
+import com.hust.exam.models.ExamCount;
 import com.hust.exam.models.StudentClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,9 @@ public interface ExamRepository  extends JpaRepository<Exam,Integer> {
     List<Exam> findByTeacherUsername(String username);
 
     List<Exam> findByStudentClass(StudentClass studentClass);
+
+    @Query("SELECT t.student AS student, COUNT (DISTINCT e) as totalSubmitExam FROM Exam e INNER JOIN e.tests t INNER JOIN e.studentClass c INNER JOIN t.student s WHERE c.id = ?1 AND t.hasSubmit = true GROUP BY t.student ")
+    List<ExamCount> countTestsByClassGroupByStudent(int classId);
 
     @Query(value = "select count(t.id) from exams e join tests t on t.exam_id = e.id where t.exam_id = :id and t.score >= :below and t.score < :upper", nativeQuery = true)
     int findStudentNumByPoint(int id, int upper, int below);
