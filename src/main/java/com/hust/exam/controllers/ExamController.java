@@ -54,4 +54,29 @@ public class ExamController {
     public ResponseEntity<List<ExamDto>> getAllExam() {
         return new ResponseEntity<>(examService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<ExamDto> getExamById(@PathVariable("id") int id) {
+        return new ResponseEntity<>(examService.findExamById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/configExam")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<ExamDto> updateExam(@RequestBody ExamDto dto) {
+        return new ResponseEntity<>(examService.updateExam(dto), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<ExamDto> createExam(@RequestBody ExamDto dto) {
+        return new ResponseEntity<>(examService.createExam(dto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<?> deleteExam(@PathVariable("id") int id) {
+        examService.deleteExam(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

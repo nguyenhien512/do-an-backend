@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers("/api/questions/**").permitAll()
+                .antMatchers("/api/exams/**").permitAll()
                 .anyRequest().authenticated().and() // All other requests need to be authenticated
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);  // Make sure we use stateless session; session won't be used to store user's state.

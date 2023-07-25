@@ -18,7 +18,16 @@ public class ExamMapper {
     @Autowired
     ListMapper listMapper;
     public ExamDto toExamDto (Exam exam) {
-        return modelMapper.map(exam, ExamDto.class);
+        ExamDto dto = modelMapper.map(exam, ExamDto.class);
+        if(exam.getStudentClass() != null) {
+            dto.setStudentClassId(exam.getStudentClass().getId());
+            dto.setStudentClassName(exam.getStudentClass().getName());
+        }
+        return dto;
+    }
+
+    public Exam toExamEntity (ExamDto dto) {
+        return modelMapper.map(dto, Exam.class);
     }
 
     public List<ExamDto> toExamDtoList(List<Exam> exams) {
