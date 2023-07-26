@@ -71,6 +71,7 @@ public class ExamService {
         exam.setCloseTime(dto.getCloseTime());
         exam.setMaxDuration(dto.getMaxDuration());
         exam.setMaxRetry(dto.getMaxRetry());
+        exam.setName(dto.getName());
         StudentClass studentClass = classRepository.findById(dto.getStudentClassId()).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp "+dto.getStudentClassName()));
         exam.setStudentClass(studentClass);
         return examMapper.toExamDto(examRepository.save(exam));

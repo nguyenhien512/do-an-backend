@@ -113,4 +113,8 @@ public class QuestionService {
         return answerRepository.save(answer);
     }
 
+    public List<QuestionDto> getQuestionsByExam (int examId) {
+        return questionMapper.toQuestionDtoList(questionRepository.findByExam(examId));
+    }
+
 }

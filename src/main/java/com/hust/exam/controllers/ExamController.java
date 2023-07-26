@@ -61,7 +61,7 @@ public class ExamController {
         return new ResponseEntity<>(examService.findExamById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/configExam")
+    @PutMapping("/config")
     @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<ExamDto> updateExam(@RequestBody ExamDto dto) {
         return new ResponseEntity<>(examService.updateExam(dto), HttpStatus.OK);
