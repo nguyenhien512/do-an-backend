@@ -27,6 +27,19 @@ public class QuestionDto {
 
     private String correctAnswers;
 
-    private int exam_times;
+    private int examTimes;
 
+    @Override
+    public String toString() {
+        return "QuestionDto{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", grade=" + grade +
+                ", subject=" + subject +
+                ", questionType=" + questionType +
+                ", answers=" + answers +
+                ", correctAnswers='" + correctAnswers + '\'' +
+                ", examTimes=" + examTimes +
+                '}';
+    }
 }

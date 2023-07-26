@@ -18,4 +18,12 @@ public class AnswerDto {
 
     private String content;
 
+    @Override
+    public String toString() {
+        return "AnswerDto{" +
+                "id=" + id +
+                ", key=" + key +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

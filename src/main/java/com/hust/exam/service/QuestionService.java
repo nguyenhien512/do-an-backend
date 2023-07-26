@@ -67,6 +67,9 @@ public class QuestionService {
         if(entity.getExamTimes() > 0) {
             throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
         }
+        if(entity.equals(questionRepository.findQuestionInExam(dto.getId()).orElse(null))) {
+            throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
+        }
         entity = questionMapper.toQuestionEntity(dto);
         Question saved = questionRepository.save(addAnswerListToDb(entity, dto.getAnswers()));
         return questionMapper.toQuestionDto(saved);
@@ -75,6 +78,9 @@ public class QuestionService {
     public void deleteQuestion(int id) {
         Question entity = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+id));
         if(entity.getExamTimes() > 0) {
+            throw new RuntimeException("Không thể xóa câu hỏi đã từng có trong đề thi!");
+        }
+        if(entity.equals(questionRepository.findQuestionInExam(id).orElse(null))) {
             throw new RuntimeException("Không thể xóa câu hỏi đã từng có trong đề thi!");
         }
         List<Answer> answerList = answerRepository.findByQuestion(entity);
