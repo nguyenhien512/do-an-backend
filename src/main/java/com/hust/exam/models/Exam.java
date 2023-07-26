@@ -1,6 +1,7 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.ExamStatus;
+import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,5 +64,10 @@ public class Exam {
     )
     private List<Question> questions;
 
+    @Column(name="exam_subject")
+    @Enumerated(EnumType.STRING)
+    private Subject subject;
 
+    @Column(name="number_of_questions")
+    private int numberOfQuestions;
 }

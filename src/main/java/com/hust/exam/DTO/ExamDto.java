@@ -2,6 +2,7 @@ package com.hust.exam.DTO;
 
 
 import com.hust.exam.enumobject.ExamStatus;
+import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,14 @@ public class ExamDto {
 
     private int maxRetry;
 
+    private int studentClassId;
+
     private String studentClassName;
 
     private TeacherDto createBy;
+
+    private Subject subject;
+
+    private int numberOfQuestions;
 
 }
