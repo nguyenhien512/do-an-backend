@@ -31,6 +31,7 @@ public class QuestionController {
 
     @PostMapping("/create")
     public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto dto) {
+        System.out.println("Question dto : "+dto);
         return new ResponseEntity<>(questionService.createQuestion(dto), HttpStatus.CREATED);
     }
 
@@ -41,6 +42,7 @@ public class QuestionController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") int id) {
+        System.out.println("question to delete id "+id);
         questionService.deleteQuestion(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
