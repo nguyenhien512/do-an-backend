@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExamService {
@@ -104,7 +105,7 @@ public class ExamService {
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
         if(exam.getQuestions().size() > 0) {
             exam.getQuestions().addAll(questions);
-            questions = exam.getQuestions();
+            questions = exam.getQuestions().stream().distinct().collect(Collectors.toList());
         }
         exam.setQuestions(questions);
         return examMapper.toExamDto(examRepository.save(exam));

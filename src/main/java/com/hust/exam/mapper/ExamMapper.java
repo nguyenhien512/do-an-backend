@@ -17,11 +17,17 @@ public class ExamMapper {
 
     @Autowired
     ListMapper listMapper;
+
+    @Autowired
+    QuestionMapper questionMapper;
     public ExamDto toExamDto (Exam exam) {
         ExamDto dto = modelMapper.map(exam, ExamDto.class);
         if(exam.getStudentClass() != null) {
             dto.setStudentClassId(exam.getStudentClass().getId());
             dto.setStudentClassName(exam.getStudentClass().getName());
+        }
+        if(exam.getQuestions() != null) {
+            dto.setQuestionDtoList(questionMapper.toQuestionDtoList(exam.getQuestions()));
         }
         return dto;
     }
