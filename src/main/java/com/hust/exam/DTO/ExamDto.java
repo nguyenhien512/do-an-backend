@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,5 +42,7 @@ public class ExamDto {
     private Subject subject;
 
     private int numberOfQuestions;
+
+    private List<QuestionDto> questionDtoList;
 
 }

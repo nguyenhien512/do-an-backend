@@ -29,5 +29,9 @@ public class QuestionMapper {
         Question question = modelMapper.map(dto, Question.class);
         return question;
     }
+
+    public List<Question> toQuestionEntityList(List<QuestionDto> dtos) {
+        return listMapper.mapList(dtos, Question.class, this::toQuestionEntity);
+    }
     
 }

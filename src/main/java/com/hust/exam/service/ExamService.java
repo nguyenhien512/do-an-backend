@@ -2,13 +2,17 @@ package com.hust.exam.service;
 
 import com.hust.exam.DTO.ExamCountDto;
 import com.hust.exam.DTO.ExamDto;
+import com.hust.exam.DTO.QuestionDto;
 import com.hust.exam.enumobject.ExamStatus;
 import com.hust.exam.mapper.ExamMapper;
+import com.hust.exam.mapper.QuestionMapper;
 import com.hust.exam.models.Exam;
 import com.hust.exam.models.ExamCount;
+import com.hust.exam.models.Question;
 import com.hust.exam.models.StudentClass;
 import com.hust.exam.repository.ClassRepository;
 import com.hust.exam.repository.ExamRepository;
+import com.hust.exam.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,9 @@ public class ExamService {
 
     @Autowired
     ExamMapper examMapper;
+
+    @Autowired
+    QuestionRepository questionRepository;
 
     public List<ExamDto> findAll (){
         return examMapper.toExamDtoList(examRepository.findAll());
@@ -58,9 +65,7 @@ public class ExamService {
         exam.setStatus(ExamStatus.UNPUBLISHED);
         exam.setExamTimes(0);
         StudentClass studentClass = classRepository.findById(dto.getStudentClassId()).orElse(null);
-        if(studentClass != null) {
-            exam.setStudentClass(studentClass);
-        }
+        exam.setStudentClass(studentClass);
         return examMapper.toExamDto(examRepository.save(exam));
     }
 
@@ -89,6 +94,30 @@ public class ExamService {
             throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
         }
         examRepository.delete(exam);
+    }
+
+    public ExamDto addQuestionsToExam(int examId, List<Integer> questionDtoIds) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
+        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
+            throw new RuntimeException("Không thể chỉnh sửa đề thi đã XUẤT BẢN");
+        }
+        List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
+        if(exam.getQuestions().size() > 0) {
+            exam.getQuestions().addAll(questions);
+            questions = exam.getQuestions();
+        }
+        exam.setQuestions(questions);
+        return examMapper.toExamDto(examRepository.save(exam));
+    }
+
+    public ExamDto removeQuestionsFromExam(int examId, List<Integer> questionDtoIds) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
+        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
+            throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
+        }
+        List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
+        exam.getQuestions().removeAll(questions);
+        return examMapper.toExamDto(examRepository.save(exam));
     }
 
 }
