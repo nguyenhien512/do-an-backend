@@ -46,4 +46,10 @@ public class QuestionController {
         questionService.deleteQuestion(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getByExam")
+    public List<QuestionDto> getQuestionsByExam(@RequestParam int examId){
+        return questionService.getQuestionsByExam(examId);
+    }
+
 }

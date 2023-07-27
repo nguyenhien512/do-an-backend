@@ -28,4 +28,8 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
             "on q.id = eqr.question_id\n" +
             "where q.id = :id", nativeQuery = true)
     Optional<Question> findQuestionInExam(@Param("id") int questionId);
+
+    @Query(value = "SELECT * from questions AS q INNER JOIN exam_question_relation AS r ON q.id = r.question_id WHERE r.exam_id = ?1 ", nativeQuery = true)
+    List<Question> findByExam(int examId);
+
 }
