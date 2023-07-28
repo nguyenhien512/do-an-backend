@@ -76,7 +76,12 @@ public class ExamController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<ExamDto> createExam(@RequestBody ExamDto dto) {
-        return new ResponseEntity<>(examService.createExam(dto), HttpStatus.OK);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            currentUserName = authentication.getName();
+        }
+        return new ResponseEntity<>(examService.createExam(currentUserName, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -2,17 +2,13 @@ package com.hust.exam.service;
 
 import com.hust.exam.DTO.ExamCountDto;
 import com.hust.exam.DTO.ExamDto;
-import com.hust.exam.DTO.QuestionDto;
 import com.hust.exam.enumobject.ExamStatus;
 import com.hust.exam.mapper.ExamMapper;
-import com.hust.exam.mapper.QuestionMapper;
-import com.hust.exam.models.Exam;
-import com.hust.exam.models.ExamCount;
-import com.hust.exam.models.Question;
-import com.hust.exam.models.StudentClass;
+import com.hust.exam.models.*;
 import com.hust.exam.repository.ClassRepository;
 import com.hust.exam.repository.ExamRepository;
 import com.hust.exam.repository.QuestionRepository;
+import com.hust.exam.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +30,9 @@ public class ExamService {
 
     @Autowired
     QuestionRepository questionRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public List<ExamDto> findAll (){
         return examMapper.toExamDtoList(examRepository.findAll());
@@ -61,10 +60,12 @@ public class ExamService {
         return examMapper.toExamDto(exam);
     }
 
-    public ExamDto createExam(ExamDto dto) {
+    public ExamDto createExam(String createByUsername, ExamDto dto) {
         Exam exam = examMapper.toExamEntity(dto);
+        Teacher teacher = (Teacher) userRepository.findById(createByUsername).orElseThrow();
         exam.setStatus(ExamStatus.UNPUBLISHED);
         exam.setExamTimes(0);
+        exam.setCreateBy(teacher);
         StudentClass studentClass = classRepository.findById(dto.getStudentClassId()).orElse(null);
         exam.setStudentClass(studentClass);
         return examMapper.toExamDto(examRepository.save(exam));
@@ -72,7 +73,7 @@ public class ExamService {
 
     public ExamDto updateExam(ExamDto dto) {
         Exam exam = examRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+dto.getId()));
-        exam.setStatus(ExamStatus.UNPUBLISHED);
+//        exam.setStatus(ExamStatus.UNPUBLISHED);
         exam.setOpenTime(dto.getOpenTime());
         exam.setCloseTime(dto.getCloseTime());
         exam.setMaxDuration(dto.getMaxDuration());
@@ -99,9 +100,9 @@ public class ExamService {
 
     public ExamDto addQuestionsToExam(int examId, List<Integer> questionDtoIds) {
         Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
-        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
-            throw new RuntimeException("Không thể chỉnh sửa đề thi đã XUẤT BẢN");
-        }
+//        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
+//            throw new RuntimeException("Không thể chỉnh sửa đề thi đã XUẤT BẢN");
+//        }
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
         if(exam.getQuestions().size() > 0) {
             exam.getQuestions().addAll(questions);
@@ -113,9 +114,9 @@ public class ExamService {
 
     public ExamDto removeQuestionsFromExam(int examId, List<Integer> questionDtoIds) {
         Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
-        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
-            throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
-        }
+//        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
+//            throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
+//        }
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
         exam.getQuestions().removeAll(questions);
         return examMapper.toExamDto(examRepository.save(exam));
