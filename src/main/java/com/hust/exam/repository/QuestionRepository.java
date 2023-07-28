@@ -31,5 +31,5 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
 
     @Query(value = "SELECT * from questions AS q INNER JOIN exam_question_relation AS r ON q.id = r.question_id WHERE r.exam_id = ?1 ", nativeQuery = true)
     List<Question> findByExam(int examId);
-
+    List<Question> findByIdIn(List<Integer> ids);
 }

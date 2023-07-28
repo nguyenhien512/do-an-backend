@@ -85,4 +85,17 @@ public class ExamController {
         examService.deleteExam(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/add-questions/{id}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<ExamDto> addQuestionsToExam(@PathVariable("id") int id, @RequestBody List<Integer> questionIds) {
+        return new ResponseEntity<>(examService.addQuestionsToExam(id, questionIds), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/remove-questions/{id}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    public ResponseEntity<?> removeQuestionsFromExam(@PathVariable("id") int id, @RequestBody List<Integer> questionIds) {
+        examService.removeQuestionsFromExam(id, questionIds);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

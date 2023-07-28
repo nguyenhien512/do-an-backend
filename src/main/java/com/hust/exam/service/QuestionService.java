@@ -15,7 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -65,7 +67,7 @@ public class QuestionService {
 
     public QuestionDto editQuestion(QuestionDto dto) {
         Question entity = questionRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Không tìm thấy câu hỏi id: "+dto.getId()));
-        dto.setExam_times(entity.getExamTimes());
+        dto.setExamTimes(entity.getExamTimes());
         if(entity.getExamTimes() > 0) {
             throw new RuntimeException("Không thể sửa câu hỏi đã từng có trong đề thi!");
         }
@@ -121,6 +123,27 @@ public class QuestionService {
 
     public List<QuestionDto> getQuestionsByExam (int examId) {
         return questionMapper.toQuestionDtoList(questionRepository.findByExam(examId));
+    }
+
+    public List<QuestionDto> searchByContent(String content) {
+        List<Question> questions = questionRepository.findAll();
+        List<QuestionDto> dtos = questionMapper.toQuestionDtoList(
+                questions.stream()
+                        .filter(question -> question.getContent().contains(content))
+                        .collect(Collectors.toList()));
+        return dtos;
+    }
+
+    public List<QuestionDto> sortByAttribute(String attribute) {
+        List<Question> questions = questionRepository.findAll();
+        questions = switch (attribute) {
+            case "subject" ->
+                    questions.stream().sorted(Comparator.comparing(Question::getSubject)).collect(Collectors.toList());
+            case "questionType" ->
+                    questions.stream().sorted(Comparator.comparing(Question::getQuestionType)).collect(Collectors.toList());
+            default -> questions.stream().sorted(Comparator.comparing(Question::getId)).collect(Collectors.toList());
+        };
+        return questionMapper.toQuestionDtoList(questions);
     }
 
 }

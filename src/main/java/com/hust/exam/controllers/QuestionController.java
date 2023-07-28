@@ -52,4 +52,14 @@ public class QuestionController {
         return questionService.getQuestionsByExam(examId);
     }
 
+    @GetMapping("/getBySearch")
+    public List<QuestionDto> getQuestionsBySearchKey(@RequestParam String searchKey){
+        return questionService.searchByContent(searchKey);
+    }
+
+    @GetMapping("/sorted")
+    public List<QuestionDto> sortQuestions(@RequestParam String attribute){
+        return questionService.sortByAttribute(attribute);
+    }
+
 }
