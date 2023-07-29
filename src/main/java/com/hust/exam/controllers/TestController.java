@@ -54,14 +54,25 @@ public class TestController {
         return testService.getResult(currentUserName,testId);
     }
 
+    @GetMapping("/results/forStudent")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public List<TestResultDto> getResults() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            currentUserName = authentication.getName();
+        }
+        return testService.getResults(currentUserName);
+    }
+
     @GetMapping("")
     @PreAuthorize("hasAuthority('TEACHER')")
     public List<TestResultDto> getTestsByExam(@RequestParam int examId) {
         return testService.getResultByExam(examId);
     }
 
-    @GetMapping("/{testId}/result/forTeacher")
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @GetMapping("/{testId}/result-detail")
+    @PreAuthorize("permitAll()")
     public TestDto getTestDetail(@PathVariable int testId) {
         return testService.getDetail(testId);
     }

@@ -21,5 +21,5 @@ public interface TestRepository extends JpaRepository<Test, Integer> {
     @Query(value = "select tq.question_id from tests t join test_question_relation tq on t.id = tq.test_id where t.exam_id = :examId", nativeQuery = true)
     List<Integer> findQuestionIdByExam(int examId);
 
-
+    List<Test> findByStudentAndHasSubmit(Student student, boolean hasSubmit);
 }

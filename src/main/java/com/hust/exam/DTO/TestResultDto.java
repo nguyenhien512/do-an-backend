@@ -15,6 +15,12 @@ public class TestResultDto {
 
     private int id;
 
+    private int examId;
+
+    private String examName;
+
+    private LocalDateTime examCloseTime;
+
     private StudentDto student;
 
     private int score;

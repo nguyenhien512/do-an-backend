@@ -119,6 +119,12 @@ public class TestService {
         return testMapper.toTestResultDto(foundTest);
     }
 
+    public List<TestResultDto> getResults(String username) {
+        Student student = (Student) userRepository.findById(username).orElseThrow(() -> new RuntimeException("Invalid user"));
+        List<Test> foundTests = testRepository.findByStudentAndHasSubmit(student, true);
+        return testMapper.toTestResultDtoList(foundTests);
+    }
+
     public TestDto getDetail( int testId) {
         Test foundTest = testRepository.findById(testId).orElseThrow();
         Test build = buildTest(foundTest, true);

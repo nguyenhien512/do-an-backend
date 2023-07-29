@@ -21,6 +21,8 @@ public class TestDto {
 
     private int examId;
 
+    private String examName;
+
     private List<TestQuestionRelationDto> testQuestionRelations;
 
     private int score;
