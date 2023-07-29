@@ -1,6 +1,7 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.Grade;
+import com.hust.exam.enumobject.QuestionLevel;
 import com.hust.exam.enumobject.QuestionType;
 import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,7 +47,19 @@ public class Question {
     @Column(name="exam_times")
     private int examTimes;
 
+    @Column(name="level")
+    @Enumerated(EnumType.STRING)
+    QuestionLevel level;
+
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "question_topic_relation",
+            joinColumns = { @JoinColumn(name = "question_id") },
+            inverseJoinColumns = { @JoinColumn(name = "topic_id") }
+    )
+    private Set<Topic> topics;
 
 }

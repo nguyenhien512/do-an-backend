@@ -1,7 +1,6 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.ExamStatus;
-import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,10 +63,8 @@ public class Exam {
     )
     private List<Question> questions;
 
-    @Column(name="exam_subject")
-    @Enumerated(EnumType.STRING)
-    private Subject subject;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "matrix_id", referencedColumnName = "id")
+    private Matrix matrix;
 
-    @Column(name="number_of_questions")
-    private int numberOfQuestions;
 }
