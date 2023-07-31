@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StatisticServiceImpl implements StatisticService {
@@ -55,8 +52,15 @@ public class StatisticServiceImpl implements StatisticService {
         for(int i = 0; i < questionIds.size(); i++) {
             int correctNum = testQuestionRelationRepository.findStudentNumByQuesId(questionIds.get(i), true);
             int wrongNum = testQuestionRelationRepository.findStudentNumByQuesId(questionIds.get(i), false);
-            records.add(new StatisticRecord(correctNum, wrongNum, questionIds.get(i)));
+            String questionType = testQuestionRelationRepository.findQuestionType(questionIds.get(i));
+            records.add(new StatisticRecord(correctNum, wrongNum, questionIds.get(i), questionType));
         }
+
+        Collections.sort(records,new Comparator<>() {
+            public int compare(StatisticRecord s1, StatisticRecord s2) {
+                return s1.getLevel().compareToIgnoreCase(s2.getLevel());
+            }
+        });
         return records;
     }
 
@@ -68,4 +72,7 @@ public class StatisticServiceImpl implements StatisticService {
         return StatisticMapper.toDtoList(students);
     }
 
+    public Float getAverageScore(int examId) {
+        return testRepository.findAverageByExam(examId);
+    }
 }

@@ -17,22 +17,17 @@ public class StatisticRecord {
     private String lastName;
     private String username;
     private float score;
+    private String level;
 
     public StatisticRecord(int i, int studentNum) {
         setPoint(i);
         setStudentNum(studentNum);
     }
 
-    public StatisticRecord(int correct, int wrong, int i) {
+    public StatisticRecord(int correct, int wrong, int i, String level) {
         setCorrect(correct);
         setWrong(wrong);
         setPoint(i);
-    }
-
-    public StatisticRecord(String firstName, String lastName, String username, float score) {
-        setFirstName(firstName);
-        setLastName(lastName);
-        setUsername(username);
-        setScore(score);
+        setLevel(level);
     }
 }

@@ -10,4 +10,6 @@ public interface StatisticService {
     List<StatisticRecord> getDataByQuesAnswer(int examId);
 
     List<StatisticRecord> getStudentInfor(int examId);
+
+    Float getAverageScore(int examId);
 }

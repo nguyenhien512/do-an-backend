@@ -44,4 +44,9 @@ public class UserController {
     public ResponseEntity<List<StatisticRecord>> getStatisticByStudentId(@PathVariable("id") int id) {
         return new ResponseEntity<>(statisticService.getStudentInfor(id), HttpStatus.OK);
     }
+
+    @GetMapping("/statistic/average/{id}")
+    public ResponseEntity<Float> getAverageByExamId(@PathVariable("id") int id) {
+        return new ResponseEntity<>(statisticService.getAverageScore(id), HttpStatus.OK);
+    }
 }
