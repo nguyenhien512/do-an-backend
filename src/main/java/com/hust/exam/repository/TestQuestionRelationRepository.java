@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface TestQuestionRelationRepository extends CrudRepository<TestQuestionRelation, TestQuestionRelationId> {
     @Query(value = "select count(tq.test_id) from test_question_relation tq where tq.question_id = :questionId and is_correct = :isCorrect", nativeQuery = true)
     int findStudentNumByQuesId(int questionId, boolean isCorrect);
+
+    @Query(value = "select q.question_level from questions q where q.id = :questionId", nativeQuery = true)
+    String findQuestionType(int questionId);
 }
