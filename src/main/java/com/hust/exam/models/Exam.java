@@ -64,10 +64,8 @@ public class Exam {
     )
     private List<Question> questions;
 
-    @Column(name="exam_subject")
+    @Column(name = "subject")
     @Enumerated(EnumType.STRING)
     private Subject subject;
 
-    @Column(name="number_of_questions")
-    private int numberOfQuestions;
 }

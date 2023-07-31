@@ -34,8 +34,8 @@ public class TestQuestionRelation {
     @Column(name="is_correct")
     private boolean isCorrect;
 
-    @OneToOne
-    @JoinColumn(name="mapping_rule_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name="mapping_rule_id")
     private MappingRule mappingRule;
 
 }

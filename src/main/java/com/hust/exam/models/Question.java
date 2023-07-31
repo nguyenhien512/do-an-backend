@@ -1,6 +1,7 @@
 package com.hust.exam.models;
 
 import com.hust.exam.enumobject.Grade;
+import com.hust.exam.enumobject.QuestionLevel;
 import com.hust.exam.enumobject.QuestionType;
 import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,15 @@ public class Question {
     @Column(name="exam_times")
     private int examTimes;
 
+    @Column(name="question_level")
+    @Enumerated(EnumType.STRING)
+    QuestionLevel level;
+
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name="topic_id")
+    private Topic topic;
 
 }
