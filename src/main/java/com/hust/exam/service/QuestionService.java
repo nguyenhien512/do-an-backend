@@ -1,13 +1,17 @@
 package com.hust.exam.service;
 
 import com.hust.exam.DTO.AnswerDto;
+import com.hust.exam.DTO.QuestionCountDto;
 import com.hust.exam.DTO.QuestionDto;
+import com.hust.exam.enumobject.QuestionLevel;
 import com.hust.exam.mapper.AnswerMapper;
 import com.hust.exam.mapper.QuestionMapper;
 import com.hust.exam.models.Answer;
 import com.hust.exam.models.Question;
+import com.hust.exam.models.Topic;
 import com.hust.exam.repository.AnswerRepository;
 import com.hust.exam.repository.QuestionRepository;
+import com.hust.exam.repository.TopicRepository;
 import com.hust.exam.utils.RandomHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,23 +37,12 @@ public class QuestionService {
     @Autowired
     AnswerMapper answerMapper;
 
+    @Autowired
+    TopicRepository topicRepository;
+
     public List<QuestionDto> getAll() {
         List<Question> questions = questionRepository.findAll();
         return questionMapper.toQuestionDtoList(questions);
-    }
-
-    public List<QuestionDto> getRandomQuestions(int size) {
-        List<Question> result = new ArrayList<>();
-        int total = (int) questionRepository.count();
-        List<Integer> randomIndexes = RandomHelper.randomIndexes(total,size);
-        for (int idx : randomIndexes) {
-            Page<Question> questionPage = questionRepository.findAll(PageRequest.of(idx, 1));
-            if (questionPage.hasContent()) {
-                Question q = questionPage.getContent().get(0);
-                result.add(q);
-            }
-        }
-        return questionMapper.toQuestionDtoList(result);
     }
 
     public QuestionDto findById(int id){
@@ -144,6 +137,35 @@ public class QuestionService {
             default -> questions.stream().sorted(Comparator.comparing(Question::getId)).collect(Collectors.toList());
         };
         return questionMapper.toQuestionDtoList(questions);
+    }
+
+    private List<Question> getRandomQuestions(QuestionLevel level, Topic topic, int size) {
+        List<Question> result = new ArrayList<>();
+        int total = (int) questionRepository.countByLevelAndTopic(level, topic);
+        List<Integer> randomIndexes = RandomHelper.randomIndexes(total,size);
+        if (size > total) {
+            throw new RuntimeException(String.format("Not enough question in level %s, topic %s", level.name(), topic.getName()));
+        }
+        for (int idx : randomIndexes) {
+            Page<Question> questionPage = questionRepository.findByLevelAndTopic(level, topic, PageRequest.of(idx, 1));
+            if (questionPage.hasContent()) {
+                Question q = questionPage.getContent().get(0);
+                result.add(q);
+            }
+        }
+        return result;
+    }
+
+    public List<Question> findQuestionsByMatrix(List<QuestionCountDto> matrix) {
+        List<Question> result = new ArrayList<>();
+        for (QuestionCountDto item: matrix) {
+            QuestionLevel level = item.getLevel();
+            Topic topic = topicRepository.findById(item.getTopic().getId()).orElseThrow(() -> new RuntimeException("Invalid Topic with id"));
+            int numberOfQuestions = item.getNumberOfQuestions();
+            List<Question> questions = getRandomQuestions(level, topic, numberOfQuestions);
+            result.addAll(questions);
+        }
+        return result;
     }
 
 }

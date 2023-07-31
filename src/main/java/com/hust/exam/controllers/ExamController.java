@@ -2,6 +2,7 @@ package com.hust.exam.controllers;
 
 import com.hust.exam.DTO.ExamCountDto;
 import com.hust.exam.DTO.ExamDto;
+import com.hust.exam.DTO.QuestionCountDto;
 import com.hust.exam.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -102,5 +103,15 @@ public class ExamController {
     public ResponseEntity<?> removeQuestionsFromExam(@PathVariable("id") int id, @RequestBody List<Integer> questionIds) {
         examService.removeQuestionsFromExam(id, questionIds);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/matrix")
+    public List<QuestionCountDto> getMatrix(@PathVariable int id) {
+        return examService.calculateMatrix(id);
+    }
+
+    @PostMapping("/setQuestionsByMatrix/{id}")
+    public ExamDto setQuestionsByMatrix(@PathVariable int id, @RequestBody List<QuestionCountDto> matrix) {
+        return examService.setQuestionsByMatrix(id, matrix);
     }
 }

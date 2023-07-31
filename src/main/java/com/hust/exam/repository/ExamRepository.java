@@ -3,6 +3,7 @@ package com.hust.exam.repository;
 import com.hust.exam.enumobject.ExamStatus;
 import com.hust.exam.models.Exam;
 import com.hust.exam.models.ExamCount;
+import com.hust.exam.models.QuestionCount;
 import com.hust.exam.models.StudentClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,12 @@ public interface ExamRepository  extends JpaRepository<Exam,Integer> {
 
     @Query(value = "select count(t.id) from exams e join tests t on t.exam_id = e.id where t.exam_id = :id and t.score >= 9 and t.score <= 10", nativeQuery = true)
     int findStudentNumByPoint10(int id);
+
+    @Query(value = "SELECT e.id, q.level AS level, tp AS topic, COUNT(q.id) as numberOfQuestions " +
+            "FROM Exam e " +
+            "INNER JOIN e.questions q " +
+            "INNER JOIN q.topic tp " +
+            "WHERE e.id = ?1 " +
+            "GROUP BY q.level, q.topic")
+    List<QuestionCount> countByMatrix(int examId);
 }

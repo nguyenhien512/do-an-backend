@@ -2,8 +2,11 @@ package com.hust.exam.service;
 
 import com.hust.exam.DTO.ExamCountDto;
 import com.hust.exam.DTO.ExamDto;
+import com.hust.exam.DTO.QuestionCountDto;
 import com.hust.exam.enumobject.ExamStatus;
+import com.hust.exam.mapper.ExamCountMapper;
 import com.hust.exam.mapper.ExamMapper;
+import com.hust.exam.mapper.QuestionCountMapper;
 import com.hust.exam.models.*;
 import com.hust.exam.repository.ClassRepository;
 import com.hust.exam.repository.ExamRepository;
@@ -29,10 +32,19 @@ public class ExamService {
     ExamMapper examMapper;
 
     @Autowired
+    ExamCountMapper examCountMapper;
+
+    @Autowired
+    QuestionCountMapper questionCountMapper;
+
+    @Autowired
     QuestionRepository questionRepository;
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    QuestionService questionService;
 
     public List<ExamDto> findAll (){
         return examMapper.toExamDtoList(examRepository.findAll());
@@ -52,7 +64,7 @@ public class ExamService {
 
     public List<ExamCountDto> countTestsByClassGroupByStudent(int classId) {
         List<ExamCount> examCounts = examRepository.countTestsByClassGroupByStudent(classId);
-        return examMapper.toExamCountDtoList(examCounts);
+        return examCountMapper.toExamCountDtoList(examCounts);
     }
 
     public ExamDto findExamById(int id) {
@@ -122,4 +134,16 @@ public class ExamService {
         return examMapper.toExamDto(examRepository.save(exam));
     }
 
+    public List<QuestionCountDto> calculateMatrix(int examId) {
+        List<QuestionCount> counts = examRepository.countByMatrix(examId);
+        return questionCountMapper.toQuestionCountDtoList(counts);
+    }
+
+    public ExamDto setQuestionsByMatrix(int examId, List<QuestionCountDto> matrix) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
+        List<Question> questions = questionService.findQuestionsByMatrix(matrix);
+        exam.setQuestions(questions);
+        Exam saved = examRepository.save(exam);
+        return examMapper.toExamDto(saved);
+    }
 }

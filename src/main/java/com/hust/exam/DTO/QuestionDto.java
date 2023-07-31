@@ -1,6 +1,7 @@
 package com.hust.exam.DTO;
 
 import com.hust.exam.enumobject.Grade;
+import com.hust.exam.enumobject.QuestionLevel;
 import com.hust.exam.enumobject.QuestionType;
 import com.hust.exam.enumobject.Subject;
 import lombok.*;
@@ -28,6 +29,10 @@ public class QuestionDto {
     private String correctAnswers;
 
     private int examTimes;
+
+    private QuestionLevel level;
+
+    private TopicDto topic;
 
     @Override
     public String toString() {

@@ -1,7 +1,6 @@
 package com.hust.exam.DTO;
 
 import com.hust.exam.enumobject.QuestionLevel;
-import com.hust.exam.models.Topic;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MatrixItemDto {
-
-    private int id;
-
+public class QuestionCountDto {
     private QuestionLevel level;
 
-    private Topic topic;
+    private TopicDto topic;
 
-    private int numberOfQuestions;
+    int numberOfQuestions;
 }

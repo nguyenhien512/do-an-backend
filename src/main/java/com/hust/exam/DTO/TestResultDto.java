@@ -21,6 +21,8 @@ public class TestResultDto {
 
     private LocalDateTime examCloseTime;
 
+    private int examExamTimes;
+
     private StudentDto student;
 
     private int score;
