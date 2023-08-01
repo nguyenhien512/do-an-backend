@@ -19,9 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -123,15 +121,6 @@ public class QuestionService {
         return questionMapper.toQuestionDtoList(questions);
     }
 
-    public List<QuestionDto> sortByAttribute(String attribute) {
-        List<Question> questions = questionRepository.findAll();
-        questions = switch (attribute) {
-            case "subject" ->
-                    questions.stream().sorted(Comparator.comparing(Question::getSubject)).collect(Collectors.toList());
-            default -> questions.stream().sorted(Comparator.comparing(Question::getId)).collect(Collectors.toList());
-        };
-        return questionMapper.toQuestionDtoList(questions);
-    }
 
     private List<Question> getRandomQuestions(QuestionLevel level, Topic topic, int size) {
         List<Question> result = new ArrayList<>();

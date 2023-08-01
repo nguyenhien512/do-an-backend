@@ -121,17 +121,15 @@ public class ExamService {
 //            throw new RuntimeException("Không thể chỉnh sửa đề thi đã XUẤT BẢN");
 //        }
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
-        if(exam.getQuestions().size() >= 0) {
             exam.getQuestions().addAll(questions);
             questions.forEach(q -> q.setExamTimes(q.getExamTimes() + 1));
             questionRepository.saveAll(questions);
             questions = exam.getQuestions().stream().distinct().collect(Collectors.toList());
-        }
         exam.setQuestions(questions);
         return examMapper.toExamDto(examRepository.save(exam));
     }
 
-    public ExamDto removeQuestionsFromExam(int examId, List<Integer> questionDtoIds) {
+    public void removeQuestionsFromExam(int examId, List<Integer> questionDtoIds) {
         Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
 //        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
 //            throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
@@ -140,7 +138,7 @@ public class ExamService {
         exam.getQuestions().removeAll(questions);
         questions.forEach(q -> q.setExamTimes(q.getExamTimes() - 1));
         questionRepository.saveAll(questions);
-        return examMapper.toExamDto(examRepository.save(exam));
+        examMapper.toExamDto(examRepository.save(exam));
     }
 
     public List<QuestionCountDto> calculateMatrix(int examId) {

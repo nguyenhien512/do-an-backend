@@ -57,9 +57,4 @@ public class QuestionController {
         return questionService.searchByContent(searchKey);
     }
 
-    @GetMapping("/sorted")
-    public List<QuestionDto> sortQuestions(@RequestParam String attribute){
-        return questionService.sortByAttribute(attribute);
-    }
-
 }
