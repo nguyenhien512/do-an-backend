@@ -2,7 +2,6 @@ package com.hust.exam.models;
 
 import com.hust.exam.enumobject.Grade;
 import com.hust.exam.enumobject.QuestionLevel;
-import com.hust.exam.enumobject.QuestionType;
 import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,10 +34,6 @@ public class Question {
     @Column(name="subject")
     @Enumerated(EnumType.STRING)
     private Subject subject;
-
-    @Column(name="question_type")
-    @Enumerated(EnumType.STRING)
-    private QuestionType questionType;
 
     @Column(name="correct_answers")
     private String correctAnswers;

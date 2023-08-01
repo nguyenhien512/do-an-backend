@@ -119,12 +119,8 @@ public class QuestionService {
     }
 
     public List<QuestionDto> searchByContent(String content) {
-        List<Question> questions = questionRepository.findAll();
-        List<QuestionDto> dtos = questionMapper.toQuestionDtoList(
-                questions.stream()
-                        .filter(question -> question.getContent().contains(content))
-                        .collect(Collectors.toList()));
-        return dtos;
+        List<Question> questions = new ArrayList<>(questionRepository.findByContent(content));
+        return questionMapper.toQuestionDtoList(questions);
     }
 
     public List<QuestionDto> sortByAttribute(String attribute) {
@@ -132,8 +128,6 @@ public class QuestionService {
         questions = switch (attribute) {
             case "subject" ->
                     questions.stream().sorted(Comparator.comparing(Question::getSubject)).collect(Collectors.toList());
-            case "questionType" ->
-                    questions.stream().sorted(Comparator.comparing(Question::getQuestionType)).collect(Collectors.toList());
             default -> questions.stream().sorted(Comparator.comparing(Question::getId)).collect(Collectors.toList());
         };
         return questionMapper.toQuestionDtoList(questions);

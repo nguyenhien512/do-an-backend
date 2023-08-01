@@ -2,9 +2,11 @@ package com.hust.exam.DTO;
 
 import com.hust.exam.enumobject.Grade;
 import com.hust.exam.enumobject.QuestionLevel;
-import com.hust.exam.enumobject.QuestionType;
 import com.hust.exam.enumobject.Subject;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -21,8 +23,6 @@ public class QuestionDto {
     private Grade grade = Grade.GRADE_10;
 
     private Subject subject = Subject.ENG;
-
-    private QuestionType questionType = QuestionType.SINGLE_CHOICE;
 
     private List<AnswerDto> answers;
 
@@ -41,7 +41,6 @@ public class QuestionDto {
                 ", content='" + content + '\'' +
                 ", grade=" + grade +
                 ", subject=" + subject +
-                ", questionType=" + questionType +
                 ", answers=" + answers +
                 ", correctAnswers='" + correctAnswers + '\'' +
                 ", examTimes=" + examTimes +

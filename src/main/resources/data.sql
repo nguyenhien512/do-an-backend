@@ -3,16 +3,16 @@ INSERT INTO topics (name) VALUES ('Connectors');
 INSERT INTO topics (name) VALUES ('Comparing');
 INSERT INTO topics (name) VALUES ('Vocabulary');
 
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id ) VALUES ('______ the better team, we lost the match.','C', 0,'LEVEL_1',1);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('Would you mind ______ the window?','A', 0,'LEVEL_2',2);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('Is Jo ______ Chris?','C', 0,'LEVEL_3',3);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('"Where\'s the ______ post office, please?"','D', 0,'LEVEL_4',4);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('If only I ______ richer.','B', 0,'LEVEL_4',1);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('The tree ______ by lightning.','C', 0,'LEVEL_3',3);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('He\'s interested ______ learning Spanish','C', 0,'LEVEL_2',2);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('They have put speed bumps on the road to ______ accidents.','C', 0,'LEVEL_1',1);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('You should ______ your homework','B', 0,'LEVEL_4',4);
-INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id) VALUES ('She looks ______ she\'s going to be sick.','A', 0,'LEVEL_3',1);
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject ) VALUES ('______ the better team, we lost the match.','C', 0,'LEVEL_1',1,'GRADE_6','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('Would you mind ______ the window?','A', 0,'LEVEL_2',2,'GRADE_7','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('Is Jo ______ Chris?','C', 0,'LEVEL_3',3,'GRADE_8','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('"Where\'s the ______ post office, please?"','D', 0,'LEVEL_4',4,'GRADE_9','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('If only I ______ richer.','B', 0,'LEVEL_4',1,'GRADE_10','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('The tree ______ by lightning.','C', 0,'LEVEL_3',3,'GRADE_6','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('He\'s interested ______ learning Spanish','C', 0,'LEVEL_2',2,'GRADE_7','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('They have put speed bumps on the road to ______ accidents.','C', 0,'LEVEL_1',1,'GRADE_10','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('You should ______ your homework','B', 0,'LEVEL_4',4,'GRADE_10','ENG');
+INSERT INTO questions (content, correct_answers, exam_times, question_level, topic_id, grade, subject) VALUES ('She looks ______ she\'s going to be sick.','A', 0,'LEVEL_3',1,'GRADE_10','ENG');
 
 INSERT INTO answers (question_id, answer_key, content) VALUES (1,'A','Despite of being');
 INSERT INTO answers (question_id, answer_key, content) VALUES (2,'A','closing');

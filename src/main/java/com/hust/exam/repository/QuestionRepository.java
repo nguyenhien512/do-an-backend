@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question,Integer> {
@@ -35,4 +36,7 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
     List<Question> findByIdIn(List<Integer> ids);
 
     Page<Question> findByLevelAndTopic(QuestionLevel level, Topic topic, Pageable pageable);
+
+    @Query(value="SELECT q FROM Question q INNER JOIN q.answers a WHERE lower(q.content) LIKE lower(concat('%', ?1,'%')) OR lower(a.content) LIKE lower(concat('%', ?1,'%'))")
+    Set<Question> findByContent(String content);
 }
