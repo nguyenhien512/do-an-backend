@@ -22,8 +22,8 @@ public class Student extends SystemUser {
     @ManyToMany(mappedBy = "students")
     private List<StudentClass> classes;
 
-    public Student(String username, String password, String firstName, String lastName) {
-       super(username, password, firstName, lastName);
+    public Student(String username, String password, String firstName, String lastName, Boolean isActive) {
+       super(username, password, firstName, lastName, isActive);
        this.setAuthority("STUDENT");
     }
 

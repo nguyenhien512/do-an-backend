@@ -2,6 +2,7 @@ package com.hust.exam.models;
 
 import com.hust.exam.enumobject.Grade;
 import com.hust.exam.enumobject.QuestionLevel;
+import com.hust.exam.enumobject.QuestionStatus;
 import com.hust.exam.enumobject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,5 +52,16 @@ public class Question {
     @ManyToOne
     @JoinColumn(name="topic_id")
     private Topic topic;
+
+    @ManyToOne
+    @JoinColumn(name = "create_by", referencedColumnName = "username")
+    private SystemUser createBy;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private QuestionStatus status;
+
+    @Column(name = "comment")
+    private String comment;
 
 }

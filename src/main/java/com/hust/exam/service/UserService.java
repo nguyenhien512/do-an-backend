@@ -11,5 +11,13 @@ public interface UserService {
     UserDto findByUsername(String username);
     int getDataNumber();
 
-    SystemUser createUser(UserDto userDTO);
+    UserDto createUser(UserDto userDTO);
+
+    UserDto updateUser(String requestUsername, UserDto userDto);
+
+    void inactive(List<String> listUsername);
+
+    void active(List<String> listUsername);
+
+    public List<UserDto> searchByNameOrUsername(String queryString, List<String> authorities);
 }

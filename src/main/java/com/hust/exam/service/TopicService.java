@@ -27,16 +27,15 @@ public class TopicService {
         return topicMapper.toTopicDto(topicRepository.save(topic));
     }
 
-    public TopicDto updateTopic(int topicId, TopicDto dto) {
+    public TopicDto updateTopic(TopicDto dto) {
         Topic topic = topicMapper.toTopicEntity(dto);
-        topic.setId(topicId);
         return topicMapper.toTopicDto(topicRepository.save(topic));
     }
 
     public void deleteTopic(int topicId) {
         Topic topic = topicRepository.findById(topicId).orElseThrow();
         if (topic.getQuestions().size() > 0) {
-            throw new RuntimeException("Không thể xóa topic vì đã sử dụng trong câu hỏi");
+            throw new RuntimeException("Không thể xóa chủ đề này vì đã sử dụng trong câu hỏi");
         }
         topicRepository.delete(topic);
     }

@@ -27,18 +27,18 @@ public class ClassService {
     ExamRepository examRepository;
 
     public List<ClassDto> findByCreateBy (String createByUsername) {
-        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow(() -> new RuntimeException("Teacher not exist"));
+        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow(() -> new RuntimeException("Giáo viên không tồn tại"));
         List<StudentClass> classes = classRepository.findByCreateBy(foundTeacher);
         return classMapper.toClassDtoList(classes);
     }
 
     public ClassDto findById (int classId) {
-        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("StudentClass not exist"));
+        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Lớp không tồn tại"));
         return classMapper.toClassDto(found);
     }
 
     public ClassDto createClass (String createByUsername, ClassDto classDto) {
-        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow();
+        Teacher foundTeacher = (Teacher) userRepository.findById(createByUsername).orElseThrow(() -> new RuntimeException("Giáo viên không tồn tại"));
         StudentClass newClass = classMapper.toEntity(classDto);
         newClass.setCreateBy(foundTeacher);
         StudentClass saved = classRepository.save(newClass);
@@ -46,7 +46,7 @@ public class ClassService {
     }
 
     public ClassDto updateClass (int classId, ClassDto classDto) {
-        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Can not update StudentClass not exist"));
+        StudentClass found = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Lớp không tồn tại"));
         found.setName(classDto.getName());
         found.setSchoolYear(classDto.getSchoolYear());
         StudentClass saved = classRepository.save(found);
@@ -54,16 +54,16 @@ public class ClassService {
     }
 
     public ClassDto addStudent (int classId, String studentUsername) {
-        StudentClass foundClass = classRepository.findById(classId).orElseThrow();
-        Student foundStudent = (Student) userRepository.findById(studentUsername).orElseThrow();
+        StudentClass foundClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Lớp không tồn tại"));
+        Student foundStudent = (Student) userRepository.findById(studentUsername).orElseThrow(() -> new RuntimeException("Học sinh không tồn tại"));
         foundClass.getStudents().add(foundStudent);
         StudentClass updated = classRepository.save(foundClass);
         return classMapper.toClassDto(updated);
     }
 
     public ClassDto removeStudent (int classId, String studentUsername) {
-        StudentClass foundClass = classRepository.findById(classId).orElseThrow();
-        Student foundStudent = (Student) userRepository.findById(studentUsername).orElseThrow();
+        StudentClass foundClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Lớp không tồn tại"));
+        Student foundStudent = (Student) userRepository.findById(studentUsername).orElseThrow(() -> new RuntimeException("Học sinh không tồn tại"));
         foundClass.getStudents().remove(foundStudent);
         StudentClass saved = classRepository.save(foundClass);
         return classMapper.toClassDto(saved);

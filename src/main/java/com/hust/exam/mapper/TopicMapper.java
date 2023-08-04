@@ -3,7 +3,6 @@ package com.hust.exam.mapper;
 import com.hust.exam.DTO.TopicDto;
 import com.hust.exam.models.Topic;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +26,6 @@ public class TopicMapper {
     }
 
     public Topic toTopicEntity(TopicDto dto) {
-        TypeMap<TopicDto, Topic> propertyMapper = modelMapper.getTypeMap(TopicDto.class, Topic.class);
-        if (propertyMapper == null) {
-            propertyMapper = modelMapper.createTypeMap(TopicDto.class, Topic.class);
-        }
-        propertyMapper.addMappings(mapper -> mapper.skip(Topic::setId));
         return modelMapper.map(dto, Topic.class);
     }
 

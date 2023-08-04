@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +92,7 @@ public class ExamService {
         exam.setMaxDuration(dto.getMaxDuration());
         exam.setMaxRetry(dto.getMaxRetry());
         exam.setName(dto.getName());
+        exam.setSubject(dto.getSubject());
         StudentClass studentClass = classRepository.findById(dto.getStudentClassId()).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp "+dto.getStudentClassName()));
         exam.setStudentClass(studentClass);
         return examMapper.toExamDto(examRepository.save(exam));
@@ -98,6 +100,9 @@ public class ExamService {
 
     public ExamDto publishExam(int id) {
         Exam exam = examRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+id));
+        if (Objects.isNull(exam.getOpenTime()) || Objects.isNull(exam.getCloseTime()) || Objects.isNull(exam.getSubject()) || Objects.isNull(exam.getStudentClass()) || exam.getMaxRetry() == 0 || exam.getMaxDuration() == 0) {
+            throw new RuntimeException("Cài đặt không hợp lệ. Không thể xuất bản đề thi.");
+        }
         exam.setStatus(ExamStatus.PUBLISHED);
         return examMapper.toExamDto(examRepository.save(exam));
     }
@@ -117,9 +122,7 @@ public class ExamService {
 
     public ExamDto addQuestionsToExam(int examId, List<Integer> questionDtoIds) {
         Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
-//        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
-//            throw new RuntimeException("Không thể chỉnh sửa đề thi đã XUẤT BẢN");
-//        }
+
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
             exam.getQuestions().addAll(questions);
             questions.forEach(q -> q.setExamTimes(q.getExamTimes() + 1));
@@ -131,9 +134,6 @@ public class ExamService {
 
     public void removeQuestionsFromExam(int examId, List<Integer> questionDtoIds) {
         Exam exam = examRepository.findById(examId).orElseThrow(() -> new RuntimeException("Không tìm thấy đề thi với id: "+examId));
-//        if(exam.getStatus().equals(ExamStatus.PUBLISHED)) {
-//            throw new RuntimeException("Không thể xóa đề thi đã XUẤT BẢN");
-//        }
         List<Question> questions = questionRepository.findByIdIn(questionDtoIds);
         exam.getQuestions().removeAll(questions);
         questions.forEach(q -> q.setExamTimes(q.getExamTimes() - 1));

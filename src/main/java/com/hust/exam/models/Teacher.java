@@ -22,8 +22,8 @@ public class Teacher extends SystemUser{
     @OneToMany(mappedBy = "createBy")
     private List<Exam> ownExams;
 
-    public Teacher(String username, String password, String firstName, String lastName) {
-        super(username, password, firstName, lastName);
+    public Teacher(String username, String password, String firstName, String lastName, Boolean isActive) {
+        super(username, password, firstName, lastName, isActive);
         this.setAuthority("TEACHER");
     }
 

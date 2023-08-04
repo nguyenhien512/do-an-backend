@@ -18,4 +18,6 @@ public class StudentDto {
 
     private String lastName;
 
+    private boolean isActive;
+
 }

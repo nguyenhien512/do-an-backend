@@ -1,6 +1,7 @@
 package com.hust.exam.repository;
 
 import com.hust.exam.enumobject.QuestionLevel;
+import com.hust.exam.enumobject.QuestionStatus;
 import com.hust.exam.models.Question;
 import com.hust.exam.models.Topic;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
     @Override
     List<Question> findAll();
 
-    long countByLevelAndTopic(QuestionLevel level, Topic topic);
+    long countByLevelAndTopicAndStatus(QuestionLevel level, Topic topic, QuestionStatus status);
 
     @Override
     Page<Question> findAll(Pageable pageable);
@@ -35,8 +36,12 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
     List<Question> findByExam(int examId);
     List<Question> findByIdIn(List<Integer> ids);
 
-    Page<Question> findByLevelAndTopic(QuestionLevel level, Topic topic, Pageable pageable);
+    Page<Question> findByLevelAndTopicAndStatus(QuestionLevel level, Topic topic, QuestionStatus status, Pageable pageable);
 
-    @Query(value="SELECT q FROM Question q INNER JOIN q.answers a WHERE lower(q.content) LIKE lower(concat('%', ?1,'%')) OR lower(a.content) LIKE lower(concat('%', ?1,'%'))")
-    Set<Question> findByContent(String content);
+    @Query(value="SELECT q FROM Question q " +
+            "INNER JOIN q.answers a " +
+            "WHERE (lower(q.content) LIKE lower(concat('%', ?1,'%')) " +
+            "OR lower(a.content) LIKE lower(concat('%', ?1,'%')))" +
+            "AND q.status IN ?2")
+    Set<Question> findByContent(String content, List<QuestionStatus> statuses);
 }

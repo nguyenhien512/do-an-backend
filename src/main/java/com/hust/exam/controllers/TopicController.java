@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/topics")
-@PreAuthorize("hasAuthority('TEACHER')")
+@PreAuthorize("hasAuthority('TEACHER') or hasAuthority('ADMIN')")
 @CrossOrigin
 public class TopicController {
 
@@ -26,12 +26,12 @@ public class TopicController {
 
     @PostMapping("")
     public ResponseEntity<TopicDto> createTopic(@RequestBody TopicDto dto) {
-       return new ResponseEntity<TopicDto>(topicService.createTopic(dto), HttpStatus.OK);
+       return new ResponseEntity<TopicDto>(topicService.createTopic(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TopicDto> updateTopic(@PathVariable int id, @RequestBody TopicDto dto) {
-        return new ResponseEntity<TopicDto>(topicService.updateTopic(id, dto), HttpStatus.OK);
+    @PutMapping("")
+    public ResponseEntity<TopicDto> updateTopic(@RequestBody TopicDto dto) {
+        return new ResponseEntity<TopicDto>(topicService.updateTopic(dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

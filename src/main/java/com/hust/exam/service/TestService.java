@@ -42,11 +42,11 @@ public class TestService {
         Exam exam = examRepository.findById(examId).orElseThrow();
 
         if (countByExamAndStudent(exam, student) >= exam.getMaxRetry()) {
-            throw new RuntimeException("Student exceed limit to do exam");
+            throw new RuntimeException("Học sinh vượt quá số lần được phép làm bài thi");
         }
 
         if (!examService.checkExamOpen(exam)) {
-            throw new RuntimeException("Exam is not opened or has been closed");
+            throw new RuntimeException("Đề thi này đã hết hạn");
         }
 
         Test test = new Test();
@@ -73,10 +73,10 @@ public class TestService {
     public void postAnswers(String username, int testId, TestSubmitDto testSubmitDto) {
         Test found = testRepository.findById(testId).orElseThrow();
         if (found.isHasSubmit()) {
-            throw new RuntimeException("Re-post answer is not allowed");
+            throw new RuntimeException("Không được phép nộp lại đáp án");
         }
         if (!found.getStudent().getUsername().equals(username)) {
-            throw new RuntimeException("This student is not the owner of the test. Post answer is not allowed.");
+            throw new RuntimeException("Người dùng không hợp lệ");
         }
         found.setSubmitTime(LocalDateTime.now());
         found.setHasSubmit(true);
@@ -114,13 +114,13 @@ public class TestService {
     public TestResultDto getResult(String username, int testId) {
         Test foundTest = testRepository.findById(testId).orElseThrow();
         if (!foundTest.getStudent().getUsername().equals(username)) {
-            throw new RuntimeException("This student is not the owner of the test. Get result is not allowed.");
+            throw new RuntimeException("Người dùng không hợp lệ");
         }
         return testMapper.toTestResultDto(foundTest);
     }
 
     public List<TestResultDto> getResults(String username) {
-        Student student = (Student) userRepository.findById(username).orElseThrow(() -> new RuntimeException("Invalid user"));
+        Student student = (Student) userRepository.findById(username).orElseThrow(() -> new RuntimeException("Người dùng không hợp lệ"));
         List<Test> foundTests = testRepository.findByStudentAndHasSubmit(student, true);
         return testMapper.toTestResultDtoList(foundTests);
     }

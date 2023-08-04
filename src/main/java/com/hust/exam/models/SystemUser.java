@@ -36,11 +36,15 @@ public class SystemUser implements Serializable {
     @Column(name="authority", insertable = false, updatable = false)
     private String authority;
 
-    public SystemUser(String username, String password, String firstName, String lastName) {
+    @Column(name="is_active")
+    private boolean isActive;
+
+    public SystemUser(String username, String password, String firstName, String lastName, Boolean isActive) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isActive = isActive;
     }
 
     @Override

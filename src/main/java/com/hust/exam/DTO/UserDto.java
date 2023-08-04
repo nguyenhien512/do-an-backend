@@ -1,13 +1,15 @@
 package com.hust.exam.DTO;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class UserDto {
 
     private String username;
@@ -19,6 +21,8 @@ public class UserDto {
     private String lastName;
 
     private String authority;
+
+    private boolean isActive;
 
     @Override
     public String toString() {

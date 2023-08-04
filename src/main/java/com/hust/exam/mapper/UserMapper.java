@@ -13,7 +13,7 @@ public class UserMapper {
         result.setFirstName(user.getFirstName());
         result.setLastName(user.getLastName());
         result.setAuthority(user.getAuthority());
-        result.setPassword(user.getPassword());
+        result.setActive(user.isActive());
         return result;
     }
 
