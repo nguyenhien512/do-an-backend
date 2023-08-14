@@ -25,7 +25,7 @@ public class TestResultDto {
 
     private StudentDto student;
 
-    private int score;
+    private float score;
 
     private LocalDateTime submitTime;
 

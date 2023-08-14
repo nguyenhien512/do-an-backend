@@ -2,6 +2,7 @@ package com.hust.exam.service.impl;
 
 import com.hust.exam.DTO.StatisticRecord;
 import com.hust.exam.mapper.StatisticMapper;
+import com.hust.exam.models.Test;
 import com.hust.exam.models.statistic.StudentScore;
 import com.hust.exam.repository.ExamRepository;
 import com.hust.exam.repository.TestQuestionRelationRepository;
@@ -47,11 +48,12 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<StatisticRecord> getDataByQuesAnswer(int examId) {
         List<Integer> questionIds = new HashSet<>(testRepository.findQuestionIdByExam(examId)).stream().toList();
+        List<Integer> testIds = testRepository.findByExam(examId).stream().map(Test::getId).toList();
         System.out.println(questionIds);
         List<StatisticRecord> records = new LinkedList<>();
         for(int i = 0; i < questionIds.size(); i++) {
-            int correctNum = testQuestionRelationRepository.findStudentNumByQuesId(questionIds.get(i), true);
-            int wrongNum = testQuestionRelationRepository.findStudentNumByQuesId(questionIds.get(i), false);
+            int correctNum = testQuestionRelationRepository.findStudentNumByQuesId(testIds, questionIds.get(i), true);
+            int wrongNum = testQuestionRelationRepository.findStudentNumByQuesId(testIds, questionIds.get(i), false);
             String questionType = testQuestionRelationRepository.findQuestionType(questionIds.get(i));
             records.add(new StatisticRecord(correctNum, wrongNum, questionIds.get(i), questionType));
         }

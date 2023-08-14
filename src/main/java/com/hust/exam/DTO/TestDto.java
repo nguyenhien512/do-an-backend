@@ -25,7 +25,7 @@ public class TestDto {
 
     private List<TestQuestionRelationDto> testQuestionRelations;
 
-    private int score;
+    private float score;
 
     private LocalDateTime submitTime;
 

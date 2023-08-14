@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
@@ -38,6 +39,9 @@ public class SystemUser implements Serializable {
 
     @Column(name="is_active")
     private boolean isActive;
+
+    @Column(name="dob")
+    private LocalDate dob;
 
     public SystemUser(String username, String password, String firstName, String lastName, Boolean isActive) {
         this.username = username;
