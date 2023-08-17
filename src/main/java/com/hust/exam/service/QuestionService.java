@@ -192,4 +192,8 @@ public class QuestionService {
     public void archive(List<Integer> qIds) {
         changeStatus(qIds, QuestionStatus.ARCHIVED);
     }
+    public void reject(List<Integer> qIds) {
+        changeStatus(qIds, QuestionStatus.REJECTED);
+    }
+
 }

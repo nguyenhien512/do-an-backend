@@ -14,6 +14,7 @@ public class UserMapper {
         result.setLastName(user.getLastName());
         result.setAuthority(user.getAuthority());
         result.setActive(user.isActive());
+        result.setDob(user.getDob());
         return result;
     }
 

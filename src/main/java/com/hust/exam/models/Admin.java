@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,8 +15,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("ADMIN")
 public class Admin extends SystemUser{
 
-    public Admin(String username, String password, String firstName, String lastName, Boolean isActive) {
-        super(username, password, firstName, lastName, isActive);
+    public Admin(String username, String password, String firstName, String lastName, LocalDate dob, Boolean isActive) {
+        super(username, password, firstName, lastName, dob, isActive);
         this.setAuthority("ADMIN");
     }
 }

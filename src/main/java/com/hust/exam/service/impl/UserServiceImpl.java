@@ -13,6 +13,7 @@ import com.hust.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -91,22 +92,23 @@ public class UserServiceImpl implements UserService {
         String firstName = userDTO.getFirstName();
         String lastName = userDTO.getLastName();
         String authority = userDTO.getAuthority();
+        LocalDate dob = userDTO.getDob();
         Boolean isActive = true;
         switch (authority) {
             case "STUDENT":
-                Student student = new Student(username, password, firstName, lastName, isActive);
+                Student student = new Student(username, password, firstName, lastName, dob, isActive);
                 SystemUser resultStudent = userRepo.save(student);
                 resultStudent.setPassword(userDTO.getPassword());
                 System.out.println("result student "+resultStudent );
                 return UserMapper.toDto(resultStudent);
             case "TEACHER":
-                Teacher teacher = new Teacher(username, password, firstName, lastName, isActive);
+                Teacher teacher = new Teacher(username, password, firstName, lastName, dob, isActive);
                 SystemUser resultTeacher = userRepo.save(teacher);
                 resultTeacher.setPassword(userDTO.getPassword());
                 System.out.println("result teacher "+resultTeacher );
                 return UserMapper.toDto(resultTeacher);
             case "ADMIN":
-                Admin admin = new Admin(username, password, firstName, lastName, isActive);
+                Admin admin = new Admin(username, password, firstName, lastName, dob, isActive);
                 SystemUser resultAdmin = userRepo.save(admin);
                 resultAdmin.setPassword(userDTO.getPassword());
                 System.out.println("result Admin "+resultAdmin);

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,6 +19,8 @@ public class StudentDto {
     private String firstName;
 
     private String lastName;
+
+    private LocalDate dob;
 
     private boolean isActive;
 

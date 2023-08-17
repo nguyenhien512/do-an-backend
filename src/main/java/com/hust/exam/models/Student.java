@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -22,8 +23,8 @@ public class Student extends SystemUser {
     @ManyToMany(mappedBy = "students")
     private List<StudentClass> classes;
 
-    public Student(String username, String password, String firstName, String lastName, Boolean isActive) {
-       super(username, password, firstName, lastName, isActive);
+    public Student(String username, String password, String firstName, String lastName, LocalDate dob, Boolean isActive) {
+       super(username, password, firstName, lastName, dob, isActive);
        this.setAuthority("STUDENT");
     }
 

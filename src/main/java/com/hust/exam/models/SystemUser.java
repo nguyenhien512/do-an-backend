@@ -43,12 +43,13 @@ public class SystemUser implements Serializable {
     @Column(name="dob")
     private LocalDate dob;
 
-    public SystemUser(String username, String password, String firstName, String lastName, Boolean isActive) {
+    public SystemUser(String username, String password, String firstName, String lastName, LocalDate dob, Boolean isActive) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
+        this.dob = dob;
     }
 
     @Override

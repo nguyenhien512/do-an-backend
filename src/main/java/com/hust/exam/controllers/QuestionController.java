@@ -82,4 +82,10 @@ public class QuestionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/reject")
+    public ResponseEntity<?> reject(@RequestBody List<Integer> qIds) {
+        questionService.reject(qIds);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

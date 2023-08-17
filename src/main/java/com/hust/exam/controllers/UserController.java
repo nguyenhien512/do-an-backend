@@ -38,6 +38,16 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/getCurrentUser")
+    public ResponseEntity<UserDto> getByUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            currentUserName = authentication.getName();
+        }
+        return new ResponseEntity<>(userService.findByUsername(currentUserName), HttpStatus.OK);
+    }
+
     @PutMapping("")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
